@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace QRTester
 {
-    public partial class MainForm : Form
+    public partial class TestMethodsForm : Form
     {
-        public MainForm()
+        public TestMethodsForm()
         {
             InitializeComponent();
+        }
+
+        private void btnSabotageOk_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void btnSabotageCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
