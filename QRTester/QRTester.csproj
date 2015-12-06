@@ -95,7 +95,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{24ff6ed7-25d2-458b-9078-7738f1ebb2b0}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{3c3b8753-820e-4428-9651-894cfb7145b7}</Project>
+      <Name>Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\Icons\Main.ico" />
     <Content Include="Graphics\Icons\Placeholder.png" />

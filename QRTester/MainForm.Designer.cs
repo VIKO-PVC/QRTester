@@ -37,6 +37,7 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
             this.tbxConsole = new System.Windows.Forms.TextBox();
+            this.ofdUploadImage = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pbxQrImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,6 +123,10 @@
             this.tbxConsole.Size = new System.Drawing.Size(595, 249);
             this.tbxConsole.TabIndex = 7;
             // 
+            // ofdUploadImage
+            // 
+            this.ofdUploadImage.FileName = "imageUpload";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -138,7 +143,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "QR Tester 0.2";
+            this.Text = "QR Tester 0.3";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbxQrImage)).EndInit();
             this.ResumeLayout(false);
@@ -156,6 +161,7 @@
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.TextBox tbxConsole;
+        private System.Windows.Forms.OpenFileDialog ofdUploadImage;
     }
 }
 
