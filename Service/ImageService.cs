@@ -40,7 +40,7 @@ namespace Service
             }
 
             // http://stackoverflow.com/questions/566462/upload-files-with-httpwebrequest-multipart-form-data
-            var response = HttpUploadFile(Settings.ImageUploadUrl, image, "f", "image/" + imageFormat); //TODO: figure out content type
+            var response = HttpUploadFile(Settings.ImageUploadUrl, image, "f", "image/" + imageFormat);
 
             if (IsResponseValid(response, Settings))
             {
