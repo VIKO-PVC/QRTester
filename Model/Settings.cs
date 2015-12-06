@@ -7,6 +7,9 @@
         public int? SuccessReponseCode { get; set; }
         public string SuccessHtmlFragment { get; set; }
 
+        public Image UploadedImage { get; set; }
+        public Image CurrentImage { get; set; }
+
         public Settings()
         {
             ImageUploadUrl = "http://zxing.org/w/decode";

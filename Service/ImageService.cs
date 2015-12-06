@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using Model;
 using Image = Model.Image;
 
@@ -12,31 +12,39 @@ namespace Service
     public static class ImageService
     {
         public static Settings Settings { get; set; }
+        public static Stack<ImageOperation> ImageOperations { get; set; }
 
         public static Image GetPicture(Stream fileStream)
         {
-            var bitmap = new Bitmap(fileStream);
+            var bitmapFromStream = new Bitmap(fileStream);
             fileStream.Close();
+            /*
+            var bitmap = new Bitmap(bitmapFromStream.Width, bitmapFromStream.Height, System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.DrawImage(bitmapFromStream, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+            }*/
 
             var image = new Image()
             {
-                Picture = bitmap
+                Picture = bitmapFromStream
             };
 
             return image;
         }
 
-        public static CheckImageResult CheckImage(Image image)
+        public static CheckImageStatus CheckImage(Image image)
         {
             var imageFormat = String.Empty;
 
-            if (image.Picture.RawFormat.Equals(System.Drawing.Imaging.ImageFormat.Jpeg))
-            {
-                imageFormat = "jpeg";
-            }
-            else if (image.Picture.RawFormat.Equals(System.Drawing.Imaging.ImageFormat.Png))
+            if (image.Picture.RawFormat.Equals(System.Drawing.Imaging.ImageFormat.Png))
             {
                 imageFormat = "png";
+            }
+            else
+            {
+                // TODO: Logging
+                return CheckImageStatus.NotCheckYet;
             }
 
             // http://stackoverflow.com/questions/566462/upload-files-with-httpwebrequest-multipart-form-data
@@ -44,10 +52,10 @@ namespace Service
 
             if (IsResponseValid(response, Settings))
             {
-                return CheckImageResult.QrRecognitionSuccessful;
+                return CheckImageStatus.QrRecognitionSuccessful;
             }
 
-            return CheckImageResult.QrRecognitionFailed;
+            return CheckImageStatus.QrRecognitionFailed;
         }
 
         public static HttpWebResponse HttpUploadFile(string url, Image image, string paramName, string contentType)
@@ -64,7 +72,7 @@ namespace Service
             
             rs.Write(boundarybytes, 0, boundarybytes.Length);
             string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            string header = string.Format(headerTemplate, paramName, contentType, contentType); // TODO: Change file name
+            string header = string.Format(headerTemplate, paramName, "a.png", contentType); // TODO: Change file name
             byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
             rs.Write(headerbytes, 0, headerbytes.Length);
             
@@ -119,11 +127,90 @@ namespace Service
 
             return false;
         }
-    }
 
-    public enum CheckImageResult
-    {
-        QrRecognitionSuccessful,
-        QrRecognitionFailed
+        public static void RotateImage2(int angle)
+        {
+            var currentImage = Settings.CurrentImage.Picture;
+            Bitmap rotatedImage = new Bitmap(currentImage.Width, currentImage.Height);
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                g.TranslateTransform(currentImage.Width / 2, currentImage.Height / 2); //set the rotation point as the center into the matrix
+                g.RotateTransform(angle); //rotate
+                g.TranslateTransform(-currentImage.Width / 2, -currentImage.Height / 2); //restore rotation point into the matrix
+                g.DrawImage(currentImage, new Point(0, 0)); //draw the image on the new bitmap
+            }
+
+            Settings.CurrentImage.Picture = rotatedImage;
+        }
+
+
+        public static void RotateImage(int angle)
+        {
+            var currentImage = Settings.CurrentImage.Picture;
+
+            http://stackoverflow.com/questions/14184700/how-to-rotate-image-x-degrees-in-c
+            angle = angle % 360;
+            if (angle > 180)
+                angle -= 360;
+
+            var pf = currentImage.PixelFormat;
+
+            var sin = (float)Math.Abs(Math.Sin(angle * Math.PI / 180.0)); // this function takes radians
+            var cos = (float)Math.Abs(Math.Cos(angle * Math.PI / 180.0)); // this one too
+            var newImgWidth = sin * currentImage.Height + cos * currentImage.Width;
+            var newImgHeight = sin * currentImage.Width + cos * currentImage.Height;
+            var originX = 0f;
+            var originY = 0f;
+
+            if (angle > 0)
+            {
+                if (angle <= 90)
+                    originX = sin * currentImage.Height;
+                else
+                {
+                    originX = newImgWidth;
+                    originY = newImgHeight - sin * currentImage.Width;
+                }
+            }
+            else
+            {
+                if (angle >= -90)
+                    originY = sin * currentImage.Width;
+                else
+                {
+                    originX = newImgWidth - sin * currentImage.Height;
+                    originY = newImgHeight;
+                }
+            }
+
+            var newImage = new Bitmap((int)newImgWidth, (int)newImgHeight, PixelFormat.Format32bppArgb);
+            var graphics = Graphics.FromImage(newImage);
+            //graphics.Clear(bkColor);
+            graphics.TranslateTransform(originX, originY); // offset the origin to our calculated values
+            graphics.RotateTransform(angle); // set up rotate
+            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
+            graphics.DrawImageUnscaled(currentImage, 0, 0); // draw the image at 0, 0
+            graphics.Dispose();
+
+            Settings.CurrentImage.Picture = newImage;
+        }
+
+        public static void ExecuteTopmostImageOperation()
+        {
+            var currentOperation = ImageOperations.Pop();
+
+            if (currentOperation.OperationType == OperationType.ROTATE)
+            {
+                RotateImage(currentOperation.AdditionalData);
+            }
+            else if (currentOperation.OperationType == OperationType.MARKER)
+            {
+                //TODO: Logic
+            }
+            else if (currentOperation.OperationType == OperationType.CORNER)
+            {
+                //TODO: Logic
+            }
+        }
     }
 }

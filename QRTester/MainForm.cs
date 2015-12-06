@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Model;
 using Service;
@@ -16,6 +16,7 @@ namespace QRTester
             InitializeComponent();
 
             ImageService.Settings = new Settings();
+            ImageService.ImageOperations = new Stack<ImageOperation>();
             ofdUploadImage.Filter = "Portable Network Graphics (*.png)|*.png";
         }
 
@@ -34,9 +35,18 @@ namespace QRTester
                 try
                 {
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
-                    if (ImageService.CheckImage(image) == CheckImageResult.QrRecognitionSuccessful)
+
+                    ImageService.Settings.UploadedImage = image;
+                    ImageService.Settings.CurrentImage = image;
+
+                    RefreshForm();
+
+                    if (ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful)
                     {
-                        Refresh(image);
+                        ImageService.Settings.UploadedImage = image;
+                        ImageService.Settings.CurrentImage = image;
+
+                        RefreshForm();
                         btnSabotage.Show();
                         btnTryDecode.Show();
                         btnRunTest.Show();
@@ -49,24 +59,28 @@ namespace QRTester
                 catch (Exception exception)
                 {
                     DisplayError(exception.Message); //TODO: Innermost message
-                    return;
                 }
             }
         }
 
         private void btnRunTest_Click(object sender, EventArgs e)
         {
-
+            testMethodsForm.MultipleChoises = true;
+            testMethodsForm.Initialize();
             testMethodsForm.ShowDialog();
         }
 
         private void btnSabotage_Click(object sender, EventArgs e)
         {
+            testMethodsForm.MultipleChoises = false;
+            testMethodsForm.Initialize();
             testMethodsForm.ShowDialog();
         }
 
         private void btnTryDecode_Click(object sender, EventArgs e)
         {
+            ImageService.ExecuteTopmostImageOperation();
+            RefreshForm();
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -85,9 +99,9 @@ namespace QRTester
             MessageBox.Show(message);
         }
 
-        private void Refresh(Image image)
+        private void RefreshForm()
         {
-            pbxQrImage.Image = image.Picture;
+            pbxQrImage.Image = ImageService.Settings.CurrentImage.Picture;
 
             Refresh();
         }
