@@ -18,12 +18,6 @@ namespace Service
         {
             var bitmapFromStream = new Bitmap(fileStream);
             fileStream.Close();
-            /*
-            var bitmap = new Bitmap(bitmapFromStream.Width, bitmapFromStream.Height, System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
-            using (Graphics graphics = Graphics.FromImage(bitmap))
-            {
-                graphics.DrawImage(bitmapFromStream, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
-            }*/
 
             var image = new Image()
             {
@@ -146,51 +140,55 @@ namespace Service
 
         public static void RotateImage(int angle)
         {
-            var currentImage = Settings.CurrentImage.Picture;
+            var uploadedImage = Settings.UploadedImage.Picture;
 
             http://stackoverflow.com/questions/14184700/how-to-rotate-image-x-degrees-in-c
             angle = angle % 360;
             if (angle > 180)
                 angle -= 360;
 
-            var pf = currentImage.PixelFormat;
-
             var sin = (float)Math.Abs(Math.Sin(angle * Math.PI / 180.0)); // this function takes radians
             var cos = (float)Math.Abs(Math.Cos(angle * Math.PI / 180.0)); // this one too
-            var newImgWidth = sin * currentImage.Height + cos * currentImage.Width;
-            var newImgHeight = sin * currentImage.Width + cos * currentImage.Height;
+            var newImgWidth = sin * uploadedImage.Height + cos * uploadedImage.Width;
+            var newImgHeight = sin * uploadedImage.Width + cos * uploadedImage.Height;
             var originX = 0f;
             var originY = 0f;
 
             if (angle > 0)
             {
                 if (angle <= 90)
-                    originX = sin * currentImage.Height;
+                    originX = sin * uploadedImage.Height;
                 else
                 {
                     originX = newImgWidth;
-                    originY = newImgHeight - sin * currentImage.Width;
+                    originY = newImgHeight - sin * uploadedImage.Width;
                 }
             }
             else
             {
                 if (angle >= -90)
-                    originY = sin * currentImage.Width;
+                    originY = sin * uploadedImage.Width;
                 else
                 {
-                    originX = newImgWidth - sin * currentImage.Height;
+                    originX = newImgWidth - sin * uploadedImage.Height;
                     originY = newImgHeight;
                 }
             }
 
             var newImage = new Bitmap((int)newImgWidth, (int)newImgHeight, PixelFormat.Format32bppArgb);
             var graphics = Graphics.FromImage(newImage);
-            //graphics.Clear(bkColor);
             graphics.TranslateTransform(originX, originY); // offset the origin to our calculated values
             graphics.RotateTransform(angle); // set up rotate
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
-            graphics.DrawImageUnscaled(currentImage, 0, 0); // draw the image at 0, 0
+            graphics.DrawImageUnscaled(uploadedImage, 0, 0); // draw the image at 0, 0
             graphics.Dispose();
+
+            // TODO: Enable sending .bmp's?
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                newImage.Save(memoryStream, ImageFormat.Png);
+                newImage = new Bitmap(memoryStream);
+            }
 
             Settings.CurrentImage.Picture = newImage;
         }
