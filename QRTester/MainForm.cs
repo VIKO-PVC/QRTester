@@ -37,7 +37,7 @@ namespace QRTester
                 {
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
 
-                    if (ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful)
+                    if (/*ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful*/ true)
                     {
                         ImageService.Settings.UploadedImage = image;
                         ImageService.Settings.CurrentImage = image;

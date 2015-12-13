@@ -36,6 +36,12 @@
             this.cbxCorner = new System.Windows.Forms.CheckBox();
             this.btnSabotageOk = new System.Windows.Forms.Button();
             this.btnSabotageCancel = new System.Windows.Forms.Button();
+            this.tbxTopMarkerPosition = new System.Windows.Forms.TextBox();
+            this.tbxBottomMarkerPosition = new System.Windows.Forms.TextBox();
+            this.lblTopMarkerPosition = new System.Windows.Forms.Label();
+            this.lblTopMarkerPositionPercent = new System.Windows.Forms.Label();
+            this.lblBottomMarkerPosition = new System.Windows.Forms.Label();
+            this.lblBottomMarkerPositionPercent = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbxRotate
@@ -101,7 +107,7 @@
             // 
             // btnSabotageCancel
             // 
-            this.btnSabotageCancel.Location = new System.Drawing.Point(195, 111);
+            this.btnSabotageCancel.Location = new System.Drawing.Point(325, 111);
             this.btnSabotageCancel.Name = "btnSabotageCancel";
             this.btnSabotageCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSabotageCancel.TabIndex = 6;
@@ -109,11 +115,69 @@
             this.btnSabotageCancel.UseVisualStyleBackColor = true;
             this.btnSabotageCancel.Click += new System.EventHandler(this.btnSabotageCancel_Click);
             // 
+            // tbxTopMarkerPosition
+            // 
+            this.tbxTopMarkerPosition.Location = new System.Drawing.Point(171, 42);
+            this.tbxTopMarkerPosition.Name = "tbxTopMarkerPosition";
+            this.tbxTopMarkerPosition.Size = new System.Drawing.Size(56, 22);
+            this.tbxTopMarkerPosition.TabIndex = 7;
+            this.tbxTopMarkerPosition.TextChanged += new System.EventHandler(this.tbxTopMarkerPosition_TextChanged);
+            // 
+            // tbxBottomMarkerPosition
+            // 
+            this.tbxBottomMarkerPosition.Location = new System.Drawing.Point(317, 42);
+            this.tbxBottomMarkerPosition.Name = "tbxBottomMarkerPosition";
+            this.tbxBottomMarkerPosition.Size = new System.Drawing.Size(56, 22);
+            this.tbxBottomMarkerPosition.TabIndex = 8;
+            this.tbxBottomMarkerPosition.TextChanged += new System.EventHandler(this.tbxBottomMarkerPosition_TextChanged);
+            // 
+            // lblTopMarkerPosition
+            // 
+            this.lblTopMarkerPosition.AutoSize = true;
+            this.lblTopMarkerPosition.Location = new System.Drawing.Point(118, 46);
+            this.lblTopMarkerPosition.Name = "lblTopMarkerPosition";
+            this.lblTopMarkerPosition.Size = new System.Drawing.Size(47, 17);
+            this.lblTopMarkerPosition.TabIndex = 9;
+            this.lblTopMarkerPosition.Text = "Viršus";
+            // 
+            // lblTopMarkerPositionPercent
+            // 
+            this.lblTopMarkerPositionPercent.AutoSize = true;
+            this.lblTopMarkerPositionPercent.Location = new System.Drawing.Point(234, 46);
+            this.lblTopMarkerPositionPercent.Name = "lblTopMarkerPositionPercent";
+            this.lblTopMarkerPositionPercent.Size = new System.Drawing.Size(20, 17);
+            this.lblTopMarkerPositionPercent.TabIndex = 10;
+            this.lblTopMarkerPositionPercent.Text = "%";
+            // 
+            // lblBottomMarkerPosition
+            // 
+            this.lblBottomMarkerPosition.AutoSize = true;
+            this.lblBottomMarkerPosition.Location = new System.Drawing.Point(260, 45);
+            this.lblBottomMarkerPosition.Name = "lblBottomMarkerPosition";
+            this.lblBottomMarkerPosition.Size = new System.Drawing.Size(51, 17);
+            this.lblBottomMarkerPosition.TabIndex = 11;
+            this.lblBottomMarkerPosition.Text = "Apačia";
+            // 
+            // lblBottomMarkerPositionPercent
+            // 
+            this.lblBottomMarkerPositionPercent.AutoSize = true;
+            this.lblBottomMarkerPositionPercent.Location = new System.Drawing.Point(380, 46);
+            this.lblBottomMarkerPositionPercent.Name = "lblBottomMarkerPositionPercent";
+            this.lblBottomMarkerPositionPercent.Size = new System.Drawing.Size(20, 17);
+            this.lblBottomMarkerPositionPercent.TabIndex = 12;
+            this.lblBottomMarkerPositionPercent.Text = "%";
+            // 
             // TestMethodsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 146);
+            this.ClientSize = new System.Drawing.Size(406, 145);
+            this.Controls.Add(this.lblBottomMarkerPositionPercent);
+            this.Controls.Add(this.lblBottomMarkerPosition);
+            this.Controls.Add(this.lblTopMarkerPositionPercent);
+            this.Controls.Add(this.lblTopMarkerPosition);
+            this.Controls.Add(this.tbxBottomMarkerPosition);
+            this.Controls.Add(this.tbxTopMarkerPosition);
             this.Controls.Add(this.btnSabotageCancel);
             this.Controls.Add(this.btnSabotageOk);
             this.Controls.Add(this.cbxCorner);
@@ -138,5 +202,11 @@
         private System.Windows.Forms.CheckBox cbxCorner;
         private System.Windows.Forms.Button btnSabotageOk;
         private System.Windows.Forms.Button btnSabotageCancel;
+        private System.Windows.Forms.TextBox tbxTopMarkerPosition;
+        private System.Windows.Forms.TextBox tbxBottomMarkerPosition;
+        private System.Windows.Forms.Label lblTopMarkerPosition;
+        private System.Windows.Forms.Label lblTopMarkerPositionPercent;
+        private System.Windows.Forms.Label lblBottomMarkerPosition;
+        private System.Windows.Forms.Label lblBottomMarkerPositionPercent;
     }
 }

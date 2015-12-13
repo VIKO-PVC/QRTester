@@ -124,7 +124,7 @@ namespace Service
             return false;
         }
 
-        public static void RotateImage(int angle, Image image)
+        public static Image RotateImage(int angle, Image image)
         {
             var bitmap = image.Picture;
 
@@ -176,29 +176,80 @@ namespace Service
                 newImage = new Bitmap(memoryStream);
             }
 
-            Settings.CurrentImage = new Image()
+            return new Image()
             {
                 Picture = newImage
             };
         }
 
+        public static Image DrawMarkerLine(float topPositionPercentage, float bottomPositionPercentage, Color markerColor, Image image)
+        {
+            var bitmap = image.Picture;
+            var topXPosition = (int) (bitmap.Width*topPositionPercentage/100);
+            var bottomXPosition = (int) (bitmap.Width*bottomPositionPercentage/100);
+
+            var newImage = new Bitmap(bitmap);
+            var graphics = Graphics.FromImage(newImage);
+            graphics.DrawLine(new Pen(markerColor, Settings.MarkerWidth), topXPosition, 0, bottomXPosition, bitmap.Height);
+            graphics.Dispose();
+
+            // TODO: Enable sending .bmp's?
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                newImage.Save(memoryStream, ImageFormat.Png);
+                newImage = new Bitmap(memoryStream);
+            }
+
+            return new Image()
+            {
+                Picture = newImage
+            };
+        }
+
+        /*public static Image CutImageCorned(int maxLength, Image image)
+        {
+            var bitmap = image.Picture;
+            var separatorColor = Color.Red;
+            
+            var newImage = new Bitmap(bitmap);
+            var graphics = Graphics.FromImage(newImage);
+            graphics.DrawLine(new Pen(separatorColor, 15),(int)(bitmap.Width * 0.75), bitmap.Height, bitmap.Width, (int)(bitmap.Height * 0.75));
+            graphics.Dispose();
+
+            // TODO: Enable sending .bmp's?
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                newImage.Save(memoryStream, ImageFormat.Png);
+                newImage = new Bitmap(memoryStream);
+            }
+
+            return new Image()
+            {
+                Picture = newImage
+            };
+        }*/
+
         public static void ExecuteTopmostImageOperation()
         {
             var currentOperation = PendingImageOperations.Pop();
+            Image transformedImage = null;
 
             if (currentOperation is RotateOperation)
             {
-                RotateImage(((RotateOperation)currentOperation).RotateAngle, currentOperation.Image);
+                transformedImage = RotateImage(((RotateOperation)currentOperation).RotateAngle, currentOperation.Image);
             }
             else if (currentOperation is CornerOperation)
             {
+                //transformedImage = CutImageCorned(10, currentOperation.Image);
                 //TODO: Logic
             }
             else if (currentOperation is MarkerOperation)
             {
-                //TODO: Logic
+                var markerOperation = (MarkerOperation) currentOperation;
+                transformedImage = DrawMarkerLine(markerOperation.TopPositionPercent, markerOperation.BottomPositionPercent, Color.Black, currentOperation.Image);
             }
 
+            Settings.CurrentImage = transformedImage;
             ExecutedImageOperations.Push(currentOperation);
         }
 

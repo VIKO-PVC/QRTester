@@ -41,6 +41,25 @@ namespace QRTester
                     RotateAngle = ImageService.GetRotationAngle(Int32.Parse(tbxRotateAngle.Text))
                 };
             }
+            /*else if (cbxCorner.Checked)
+            {
+                operation = new CornerOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    MaxPercentage = 25
+                };
+            }*/
+            else if (cbxMarker.Checked)
+            {
+                operation = new MarkerOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    TopPositionPercent = Int32.Parse(tbxTopMarkerPosition.Text),
+                    BottomPositionPercent = Int32.Parse(tbxBottomMarkerPosition.Text)
+                };
+            }
             else
             {
                 operation = null;
@@ -94,6 +113,24 @@ namespace QRTester
             if (!Int32.TryParse(tbxRotateAngle.Text, out parsedNumber) || parsedNumber > 360 || parsedNumber < 0)
             {
                 tbxRotateAngle.Text = 0.ToString();
+            }
+        }
+
+        private void tbxTopMarkerPosition_TextChanged(object sender, EventArgs e)
+        {
+            int parsedNumber;
+            if (!Int32.TryParse(tbxTopMarkerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            {
+                tbxTopMarkerPosition.Text = 0.ToString();
+            }
+        }
+
+        private void tbxBottomMarkerPosition_TextChanged(object sender, EventArgs e)
+        {
+            int parsedNumber;
+            if (!Int32.TryParse(tbxBottomMarkerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            {
+                tbxBottomMarkerPosition.Text = 0.ToString();
             }
         }
     }
