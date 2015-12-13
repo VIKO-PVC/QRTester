@@ -28,22 +28,25 @@ namespace QRTester
 
         private void btnSabotageOk_Click(object sender, EventArgs e)
         {
-            OperationType operationType = OperationType.ROTATE;
+            var checkStatus = CheckImageStatus.NotCheckYet;
+            var image = ImageService.Settings.UploadedImage;
+            ImageOperation operation;
 
             if (cbxRotate.Checked)
             {
-                operationType = OperationType.ROTATE;
+                operation = new RotateOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    RotateAngle = ImageService.GetRotationAngle(Int32.Parse(tbxRotateAngle.Text))
+                };
+            }
+            else
+            {
+                operation = null;
             }
 
-            var imageOperation = new ImageOperation()
-            {
-                CheckStatus = CheckImageStatus.NotCheckYet,
-                Image = ImageService.Settings.CurrentImage,
-                OperationType = operationType,
-                AdditionalData = Int32.Parse(tbxRotateAngle.Text)
-            };
-
-            ImageService.ImageOperations.Push(imageOperation);
+            ImageService.PendingImageOperations.Push(operation);
             Close();
         }
 

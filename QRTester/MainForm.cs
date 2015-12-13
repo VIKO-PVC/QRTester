@@ -16,7 +16,8 @@ namespace QRTester
             InitializeComponent();
 
             ImageService.Settings = new Settings();
-            ImageService.ImageOperations = new Stack<ImageOperation>();
+            ImageService.PendingImageOperations = new Stack<ImageOperation>();
+            ImageService.ExecutedImageOperations = new Stack<ImageOperation>();
             ofdUploadImage.Filter = "Portable Network Graphics (*.png)|*.png";
         }
 
@@ -35,11 +36,6 @@ namespace QRTester
                 try
                 {
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
-
-                    ImageService.Settings.UploadedImage = image;
-                    ImageService.Settings.CurrentImage = image;
-
-                    RefreshForm();
 
                     if (ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful)
                     {

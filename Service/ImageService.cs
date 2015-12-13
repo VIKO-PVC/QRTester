@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Net;
 using Model;
 using Image = Model.Image;
@@ -12,7 +13,8 @@ namespace Service
     public static class ImageService
     {
         public static Settings Settings { get; set; }
-        public static Stack<ImageOperation> ImageOperations { get; set; }
+        public static Stack<ImageOperation> PendingImageOperations { get; set; }
+        public static Stack<ImageOperation> ExecutedImageOperations { get; set; }
 
         public static Image GetPicture(Stream fileStream)
         {
@@ -122,25 +124,9 @@ namespace Service
             return false;
         }
 
-        public static void RotateImage2(int angle)
+        public static void RotateImage(int angle, Image image)
         {
-            var currentImage = Settings.CurrentImage.Picture;
-            Bitmap rotatedImage = new Bitmap(currentImage.Width, currentImage.Height);
-            using (Graphics g = Graphics.FromImage(rotatedImage))
-            {
-                g.TranslateTransform(currentImage.Width / 2, currentImage.Height / 2); //set the rotation point as the center into the matrix
-                g.RotateTransform(angle); //rotate
-                g.TranslateTransform(-currentImage.Width / 2, -currentImage.Height / 2); //restore rotation point into the matrix
-                g.DrawImage(currentImage, new Point(0, 0)); //draw the image on the new bitmap
-            }
-
-            Settings.CurrentImage.Picture = rotatedImage;
-        }
-
-
-        public static void RotateImage(int angle)
-        {
-            var uploadedImage = Settings.UploadedImage.Picture;
+            var bitmap = image.Picture;
 
             http://stackoverflow.com/questions/14184700/how-to-rotate-image-x-degrees-in-c
             angle = angle % 360;
@@ -149,28 +135,28 @@ namespace Service
 
             var sin = (float)Math.Abs(Math.Sin(angle * Math.PI / 180.0)); // this function takes radians
             var cos = (float)Math.Abs(Math.Cos(angle * Math.PI / 180.0)); // this one too
-            var newImgWidth = sin * uploadedImage.Height + cos * uploadedImage.Width;
-            var newImgHeight = sin * uploadedImage.Width + cos * uploadedImage.Height;
+            var newImgWidth = sin * bitmap.Height + cos * bitmap.Width;
+            var newImgHeight = sin * bitmap.Width + cos * bitmap.Height;
             var originX = 0f;
             var originY = 0f;
 
             if (angle > 0)
             {
                 if (angle <= 90)
-                    originX = sin * uploadedImage.Height;
+                    originX = sin * bitmap.Height;
                 else
                 {
                     originX = newImgWidth;
-                    originY = newImgHeight - sin * uploadedImage.Width;
+                    originY = newImgHeight - sin * bitmap.Width;
                 }
             }
             else
             {
                 if (angle >= -90)
-                    originY = sin * uploadedImage.Width;
+                    originY = sin * bitmap.Width;
                 else
                 {
-                    originX = newImgWidth - sin * uploadedImage.Height;
+                    originX = newImgWidth - sin * bitmap.Height;
                     originY = newImgHeight;
                 }
             }
@@ -180,7 +166,7 @@ namespace Service
             graphics.TranslateTransform(originX, originY); // offset the origin to our calculated values
             graphics.RotateTransform(angle); // set up rotate
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
-            graphics.DrawImageUnscaled(uploadedImage, 0, 0); // draw the image at 0, 0
+            graphics.DrawImageUnscaled(bitmap, 0, 0); // draw the image at 0, 0
             graphics.Dispose();
 
             // TODO: Enable sending .bmp's?
@@ -190,25 +176,37 @@ namespace Service
                 newImage = new Bitmap(memoryStream);
             }
 
-            Settings.CurrentImage.Picture = newImage;
+            Settings.CurrentImage = new Image()
+            {
+                Picture = newImage
+            };
         }
 
         public static void ExecuteTopmostImageOperation()
         {
-            var currentOperation = ImageOperations.Pop();
+            var currentOperation = PendingImageOperations.Pop();
 
-            if (currentOperation.OperationType == OperationType.ROTATE)
+            if (currentOperation is RotateOperation)
             {
-                RotateImage(currentOperation.AdditionalData);
+                RotateImage(((RotateOperation)currentOperation).RotateAngle, currentOperation.Image);
             }
-            else if (currentOperation.OperationType == OperationType.MARKER)
-            {
-                //TODO: Logic
-            }
-            else if (currentOperation.OperationType == OperationType.CORNER)
+            else if (currentOperation is CornerOperation)
             {
                 //TODO: Logic
             }
+            else if (currentOperation is MarkerOperation)
+            {
+                //TODO: Logic
+            }
+
+            ExecutedImageOperations.Push(currentOperation);
+        }
+
+        public static int GetRotationAngle(int inputAngle)
+        {
+            var a =
+                ExecutedImageOperations.Where(item => item is RotateOperation).Sum(item => ((RotateOperation) item).RotateAngle);
+            return (a + inputAngle) % 360;
         }
     }
 }

@@ -3,16 +3,21 @@
     public class ImageOperation
     {
         public Image Image { get; set; }
-        public OperationType OperationType { get; set; }
         public CheckImageStatus CheckStatus { get; set; }
-        public int AdditionalData { get; set; }
+    }
+
+    public class RotateOperation : ImageOperation
+    {
+        public int RotateAngle { get; set; }
+    }
+
+    public class CornerOperation : ImageOperation
+    {
 
     }
 
-    public enum OperationType
+    public class MarkerOperation : ImageOperation
     {
-        ROTATE,
-        CORNER,
-        MARKER
+
     }
 }
