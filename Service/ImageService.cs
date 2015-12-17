@@ -33,7 +33,7 @@ namespace Service
         {
             var imageFormat = String.Empty;
 
-            if (image.Picture.RawFormat.Equals(System.Drawing.Imaging.ImageFormat.Png))
+            if (image.Picture.RawFormat.Equals(ImageFormat.Png))
             {
                 imageFormat = "png";
             }
@@ -184,13 +184,20 @@ namespace Service
 
         public static Image DrawMarkerLine(float topPositionPercentage, float bottomPositionPercentage, Color markerColor, Image image)
         {
+            var topXPosition = (int) (image.Picture.Width*topPositionPercentage/100);
+            var bottomXPosition = (int) (image.Picture.Width*bottomPositionPercentage/100);
+
+            return DrawMarkerLine(new Point(topXPosition, 0), new Point(bottomXPosition, image.Picture.Height), markerColor, Settings.MarkerWidth, image);
+        }
+
+
+        public static Image DrawMarkerLine(Point start, Point end, Color markerColor, float markerWidth, Image image)
+        {
             var bitmap = image.Picture;
-            var topXPosition = (int) (bitmap.Width*topPositionPercentage/100);
-            var bottomXPosition = (int) (bitmap.Width*bottomPositionPercentage/100);
 
             var newImage = new Bitmap(bitmap);
             var graphics = Graphics.FromImage(newImage);
-            graphics.DrawLine(new Pen(markerColor, Settings.MarkerWidth), topXPosition, 0, bottomXPosition, bitmap.Height);
+            graphics.DrawLine(new Pen(markerColor, markerWidth), start.X, start.Y, end.X, end.Y);
             graphics.Dispose();
 
             // TODO: Enable sending .bmp's?
@@ -206,28 +213,40 @@ namespace Service
             };
         }
 
-        /*public static Image CutImageCorned(int maxLength, Image image)
+        public static Image CutImageCorned(int topPositionPercentage, int sidePositionPercentage, Image image)
         {
-            var bitmap = image.Picture;
-            var separatorColor = Color.Red;
+            var topPosition = image.Picture.Width * topPositionPercentage / 100;
+            var sidePosition = image.Picture.Width * sidePositionPercentage / 100;
             
-            var newImage = new Bitmap(bitmap);
-            var graphics = Graphics.FromImage(newImage);
-            graphics.DrawLine(new Pen(separatorColor, 15),(int)(bitmap.Width * 0.75), bitmap.Height, bitmap.Width, (int)(bitmap.Height * 0.75));
-            graphics.Dispose();
-
-            // TODO: Enable sending .bmp's?
-            using (MemoryStream memoryStream = new MemoryStream())
+            var bitmapWithBoundary = (Bitmap)DrawMarkerLine(new Point(topPosition, 0), new Point(0, sidePosition), Color.Red,
+                1, image).Picture;
+            
+            var currentPoint = new Point(0, 0);
+            
+            //TODO: Move colors to settings?
+            while (bitmapWithBoundary.GetPixel(0, currentPoint.Y).ToArgb() != Color.Red.ToArgb())
             {
-                newImage.Save(memoryStream, ImageFormat.Png);
-                newImage = new Bitmap(memoryStream);
-            }
+                while (bitmapWithBoundary.GetPixel(currentPoint.X, currentPoint.Y).ToArgb() != Color.Red.ToArgb())
+                {
+                    bitmapWithBoundary.SetPixel(currentPoint.X, currentPoint.Y, Color.Black);
+                    currentPoint.X++;
+                }
 
+                while (bitmapWithBoundary.GetPixel(currentPoint.X, currentPoint.Y).ToArgb() == Color.Red.ToArgb())
+                {
+                    bitmapWithBoundary.SetPixel(currentPoint.X, currentPoint.Y, Color.Black);
+                    currentPoint.X++;
+                }
+
+                currentPoint.Y++;
+                currentPoint.X = 0;
+            }
+            
             return new Image()
             {
-                Picture = newImage
-            };
-        }*/
+                Picture = bitmapWithBoundary
+            }; ;
+        }
 
         public static void ExecuteTopmostImageOperation()
         {
@@ -240,8 +259,9 @@ namespace Service
             }
             else if (currentOperation is CornerOperation)
             {
-                //transformedImage = CutImageCorned(10, currentOperation.Image);
-                //TODO: Logic
+                var cornerOperation = (CornerOperation) currentOperation;
+                transformedImage = CutImageCorned(cornerOperation.TopPositionPercent, cornerOperation.SidePositionPercent, currentOperation.Image);
+                
             }
             else if (currentOperation is MarkerOperation)
             {

@@ -42,6 +42,12 @@
             this.lblTopMarkerPositionPercent = new System.Windows.Forms.Label();
             this.lblBottomMarkerPosition = new System.Windows.Forms.Label();
             this.lblBottomMarkerPositionPercent = new System.Windows.Forms.Label();
+            this.lblTopCornerPosition = new System.Windows.Forms.Label();
+            this.tbxTopCornerPosition = new System.Windows.Forms.TextBox();
+            this.lblTopCornerPercentage = new System.Windows.Forms.Label();
+            this.lblCornerSidePosition = new System.Windows.Forms.Label();
+            this.tbxCornerSidePosition = new System.Windows.Forms.TextBox();
+            this.lblCornerSidePositionPercentage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbxRotate
@@ -167,11 +173,69 @@
             this.lblBottomMarkerPositionPercent.TabIndex = 12;
             this.lblBottomMarkerPositionPercent.Text = "%";
             // 
+            // lblTopCornerPosition
+            // 
+            this.lblTopCornerPosition.AutoSize = true;
+            this.lblTopCornerPosition.Location = new System.Drawing.Point(118, 69);
+            this.lblTopCornerPosition.Name = "lblTopCornerPosition";
+            this.lblTopCornerPosition.Size = new System.Drawing.Size(47, 17);
+            this.lblTopCornerPosition.TabIndex = 13;
+            this.lblTopCornerPosition.Text = "Viršus";
+            // 
+            // tbxTopCornerPosition
+            // 
+            this.tbxTopCornerPosition.Location = new System.Drawing.Point(172, 69);
+            this.tbxTopCornerPosition.Name = "tbxTopCornerPosition";
+            this.tbxTopCornerPosition.Size = new System.Drawing.Size(55, 22);
+            this.tbxTopCornerPosition.TabIndex = 14;
+            this.tbxTopCornerPosition.TextChanged += new System.EventHandler(this.tbxTopCornerPosition_TextChanged);
+            // 
+            // lblTopCornerPercentage
+            // 
+            this.lblTopCornerPercentage.AutoSize = true;
+            this.lblTopCornerPercentage.Location = new System.Drawing.Point(234, 72);
+            this.lblTopCornerPercentage.Name = "lblTopCornerPercentage";
+            this.lblTopCornerPercentage.Size = new System.Drawing.Size(20, 17);
+            this.lblTopCornerPercentage.TabIndex = 15;
+            this.lblTopCornerPercentage.Text = "%";
+            // 
+            // lblCornerSidePosition
+            // 
+            this.lblCornerSidePosition.AutoSize = true;
+            this.lblCornerSidePosition.Location = new System.Drawing.Point(261, 71);
+            this.lblCornerSidePosition.Name = "lblCornerSidePosition";
+            this.lblCornerSidePosition.Size = new System.Drawing.Size(48, 17);
+            this.lblCornerSidePosition.TabIndex = 16;
+            this.lblCornerSidePosition.Text = "Šonas";
+            // 
+            // tbxCornerSidePosition
+            // 
+            this.tbxCornerSidePosition.Location = new System.Drawing.Point(317, 69);
+            this.tbxCornerSidePosition.Name = "tbxCornerSidePosition";
+            this.tbxCornerSidePosition.Size = new System.Drawing.Size(56, 22);
+            this.tbxCornerSidePosition.TabIndex = 17;
+            this.tbxCornerSidePosition.TextChanged += new System.EventHandler(this.tbxCornerSidePosition_TextChanged);
+            // 
+            // lblCornerSidePositionPercentage
+            // 
+            this.lblCornerSidePositionPercentage.AutoSize = true;
+            this.lblCornerSidePositionPercentage.Location = new System.Drawing.Point(380, 72);
+            this.lblCornerSidePositionPercentage.Name = "lblCornerSidePositionPercentage";
+            this.lblCornerSidePositionPercentage.Size = new System.Drawing.Size(20, 17);
+            this.lblCornerSidePositionPercentage.TabIndex = 18;
+            this.lblCornerSidePositionPercentage.Text = "%";
+            // 
             // TestMethodsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(406, 145);
+            this.Controls.Add(this.lblCornerSidePositionPercentage);
+            this.Controls.Add(this.tbxCornerSidePosition);
+            this.Controls.Add(this.lblCornerSidePosition);
+            this.Controls.Add(this.lblTopCornerPercentage);
+            this.Controls.Add(this.tbxTopCornerPosition);
+            this.Controls.Add(this.lblTopCornerPosition);
             this.Controls.Add(this.lblBottomMarkerPositionPercent);
             this.Controls.Add(this.lblBottomMarkerPosition);
             this.Controls.Add(this.lblTopMarkerPositionPercent);
@@ -208,5 +272,11 @@
         private System.Windows.Forms.Label lblTopMarkerPositionPercent;
         private System.Windows.Forms.Label lblBottomMarkerPosition;
         private System.Windows.Forms.Label lblBottomMarkerPositionPercent;
+        private System.Windows.Forms.Label lblTopCornerPosition;
+        private System.Windows.Forms.TextBox tbxTopCornerPosition;
+        private System.Windows.Forms.Label lblTopCornerPercentage;
+        private System.Windows.Forms.Label lblCornerSidePosition;
+        private System.Windows.Forms.TextBox tbxCornerSidePosition;
+        private System.Windows.Forms.Label lblCornerSidePositionPercentage;
     }
 }

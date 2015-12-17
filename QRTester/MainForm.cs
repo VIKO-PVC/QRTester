@@ -37,7 +37,7 @@ namespace QRTester
                 {
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
 
-                    if (/*ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful*/ true)
+                    if (ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful)
                     {
                         ImageService.Settings.UploadedImage = image;
                         ImageService.Settings.CurrentImage = image;
@@ -76,7 +76,15 @@ namespace QRTester
         private void btnTryDecode_Click(object sender, EventArgs e)
         {
             ImageService.ExecuteTopmostImageOperation();
-            RefreshForm();
+            if (/*ImageService.CheckImage(ImageService.Settings.CurrentImage) == CheckImageStatus.QrRecognitionSuccessful*/ true)
+            {
+                //TODO: logging
+                RefreshForm();
+            }
+            else
+            {
+                //TODO: logging
+            }
         }
 
         private void btnSettings_Click(object sender, EventArgs e)

@@ -41,15 +41,16 @@ namespace QRTester
                     RotateAngle = ImageService.GetRotationAngle(Int32.Parse(tbxRotateAngle.Text))
                 };
             }
-            /*else if (cbxCorner.Checked)
+            else if (cbxCorner.Checked)
             {
                 operation = new CornerOperation()
                 {
                     CheckStatus = checkStatus,
                     Image = image,
-                    MaxPercentage = 25
+                    TopPositionPercent = Int32.Parse(tbxTopCornerPosition.Text),
+                    SidePositionPercent = Int32.Parse(tbxCornerSidePosition.Text)
                 };
-            }*/
+            }
             else if (cbxMarker.Checked)
             {
                 operation = new MarkerOperation()
@@ -132,6 +133,25 @@ namespace QRTester
             {
                 tbxBottomMarkerPosition.Text = 0.ToString();
             }
+        }
+
+        private void tbxTopCornerPosition_TextChanged(object sender, EventArgs e)
+        {
+            int parsedNumber;
+            if (!Int32.TryParse(tbxTopCornerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            {
+                tbxTopCornerPosition.Text = 0.ToString();
+            }
+        }
+
+        private void tbxCornerSidePosition_TextChanged(object sender, EventArgs e)
+        {
+            int parsedNumber;
+            if (!Int32.TryParse(tbxCornerSidePosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            {
+                tbxCornerSidePosition.Text = 0.ToString();
+            }
+
         }
     }
 }

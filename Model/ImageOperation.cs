@@ -13,7 +13,9 @@
 
     public class CornerOperation : ImageOperation
     {
-        public int MaxPercentage { get; set; }
+        public int TopPositionPercent { get; set; }
+
+        public int SidePositionPercent { get; set; }
     }
 
     public class MarkerOperation : ImageOperation
