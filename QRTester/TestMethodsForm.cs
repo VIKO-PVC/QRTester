@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Model;
 using Service;
@@ -7,105 +8,81 @@ namespace QRTester
 {
     public partial class TestMethodsForm : Form
     {
+        public delegate void RefreshMainFormDelegate();
+
         public bool MultipleChoises { get; set; }
-        private bool IsMultipleChoisesEventsActive { get; set; }
+        public RefreshMainFormDelegate RefreshMainFormHandler { get; set; }
+
 
         public TestMethodsForm()
         {
-            IsMultipleChoisesEventsActive = true;
             InitializeComponent();
         }
 
         public void Initialize()
         {
-            IsMultipleChoisesEventsActive = false;
-            cbxRotate.Checked = false;
-            cbxMarker.Checked = false;
-            cbxCorner.Checked = false;
             tbxRotateAngle.Text = 0.ToString();
-            IsMultipleChoisesEventsActive = true;
         }
 
         private void btnSabotageOk_Click(object sender, EventArgs e)
         {
             var checkStatus = CheckImageStatus.NotCheckYet;
             var image = ImageService.Settings.UploadedImage;
-            ImageOperation operation;
 
+            Stack<ImageOperation> operations = new Stack<ImageOperation>();
+            
             if (cbxRotate.Checked)
             {
-                operation = new RotateOperation()
+                operations.Push(new RotateOperation()
                 {
                     CheckStatus = checkStatus,
                     Image = image,
                     RotateAngle = ImageService.GetRotationAngle(Int32.Parse(tbxRotateAngle.Text))
-                };
+                });
             }
-            else if (cbxCorner.Checked)
+
+            if (cbxCorner.Checked)
             {
-                operation = new CornerOperation()
+                operations.Push(new CornerOperation()
                 {
                     CheckStatus = checkStatus,
                     Image = image,
                     TopPositionPercent = Int32.Parse(tbxTopCornerPosition.Text),
                     SidePositionPercent = Int32.Parse(tbxCornerSidePosition.Text)
-                };
+                });
             }
-            else if (cbxMarker.Checked)
+
+            if (cbxMarker.Checked)
             {
-                operation = new MarkerOperation()
+                operations.Push(new MarkerOperation()
                 {
                     CheckStatus = checkStatus,
                     Image = image,
                     TopPositionPercent = Int32.Parse(tbxTopMarkerPosition.Text),
                     BottomPositionPercent = Int32.Parse(tbxBottomMarkerPosition.Text)
-                };
+                });
             }
-            else
+
+            var operation = operations.Pop();
+            var currentOperation = operation;
+
+            while (operations.Count > 0)
             {
-                operation = null;
+                currentOperation.InnerOperation = operations.Pop();
+                currentOperation = operation.InnerOperation;
             }
 
             ImageService.PendingImageOperations.Push(operation);
+
             Close();
+
+            ImageService.ExecuteTopmostImageOperation();
+            RefreshMainFormHandler();
         }
 
         private void btnSabotageCancel_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void cbxRotate_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!MultipleChoises && IsMultipleChoisesEventsActive)
-            {
-                IsMultipleChoisesEventsActive = false;
-                cbxMarker.Checked = false;
-                cbxCorner.Checked = false;
-                IsMultipleChoisesEventsActive = true;
-            }
-        }
-
-        private void cbxMarker_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!MultipleChoises && IsMultipleChoisesEventsActive)
-            {
-                IsMultipleChoisesEventsActive = false;
-                cbxRotate.Checked = false;
-                cbxCorner.Checked = false;
-                IsMultipleChoisesEventsActive = true;
-            }
-        }
-
-        private void cbxCorner_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!MultipleChoises && IsMultipleChoisesEventsActive)
-            {
-                IsMultipleChoisesEventsActive = false;
-                cbxMarker.Checked = false;
-                cbxRotate.Checked = false;
-                IsMultipleChoisesEventsActive = true;
-            }
         }
 
         private void tbxRotateAngle_TextChanged(object sender, EventArgs e)

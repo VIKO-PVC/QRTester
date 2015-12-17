@@ -24,6 +24,8 @@ namespace QRTester
         private void MainForm_Load(object sender, EventArgs e)
         {
             testMethodsForm = new TestMethodsForm();
+            testMethodsForm.RefreshMainFormHandler += ProcessCurrentImage;
+
             settingsForm = new SettingsForm();
         }
 
@@ -44,7 +46,6 @@ namespace QRTester
 
                         RefreshForm();
                         btnSabotage.Show();
-                        btnTryDecode.Show();
                         btnRunTest.Show();
                     }
                     else
@@ -75,16 +76,7 @@ namespace QRTester
 
         private void btnTryDecode_Click(object sender, EventArgs e)
         {
-            ImageService.ExecuteTopmostImageOperation();
-            if (/*ImageService.CheckImage(ImageService.Settings.CurrentImage) == CheckImageStatus.QrRecognitionSuccessful*/ true)
-            {
-                //TODO: logging
-                RefreshForm();
-            }
-            else
-            {
-                //TODO: logging
-            }
+            
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -106,8 +98,21 @@ namespace QRTester
         private void RefreshForm()
         {
             pbxQrImage.Image = ImageService.Settings.CurrentImage.Picture;
-
             Refresh();
+        }
+
+        private void ProcessCurrentImage()
+        {
+            if (ImageService.CheckImage(ImageService.Settings.CurrentImage) == CheckImageStatus.QrRecognitionSuccessful)
+            {
+                //TODO: logging
+            }
+            else
+            {
+                //TODO: logging
+            }
+
+            RefreshForm();
         }
     }
 }

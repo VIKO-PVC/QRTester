@@ -32,7 +32,6 @@
             this.pbxQrImage = new System.Windows.Forms.PictureBox();
             this.btnUploadQr = new System.Windows.Forms.Button();
             this.btnSabotage = new System.Windows.Forms.Button();
-            this.btnTryDecode = new System.Windows.Forms.Button();
             this.btnRunTest = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
@@ -72,17 +71,6 @@
             this.btnSabotage.UseVisualStyleBackColor = true;
             this.btnSabotage.Visible = false;
             this.btnSabotage.Click += new System.EventHandler(this.btnSabotage_Click);
-            // 
-            // btnTryDecode
-            // 
-            this.btnTryDecode.Location = new System.Drawing.Point(269, 101);
-            this.btnTryDecode.Name = "btnTryDecode";
-            this.btnTryDecode.Size = new System.Drawing.Size(123, 23);
-            this.btnTryDecode.TabIndex = 3;
-            this.btnTryDecode.Text = "Tikrinti";
-            this.btnTryDecode.UseVisualStyleBackColor = true;
-            this.btnTryDecode.Visible = false;
-            this.btnTryDecode.Click += new System.EventHandler(this.btnTryDecode_Click);
             // 
             // btnRunTest
             // 
@@ -136,7 +124,6 @@
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRunTest);
-            this.Controls.Add(this.btnTryDecode);
             this.Controls.Add(this.btnSabotage);
             this.Controls.Add(this.btnUploadQr);
             this.Controls.Add(this.pbxQrImage);
@@ -156,7 +143,6 @@
         private System.Windows.Forms.PictureBox pbxQrImage;
         private System.Windows.Forms.Button btnUploadQr;
         private System.Windows.Forms.Button btnSabotage;
-        private System.Windows.Forms.Button btnTryDecode;
         private System.Windows.Forms.Button btnRunTest;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnSettings;

@@ -4,6 +4,7 @@
     {
         public Image Image { get; set; }
         public CheckImageStatus CheckStatus { get; set; }
+        public ImageOperation InnerOperation { get; set; }
     }
 
     public class RotateOperation : ImageOperation

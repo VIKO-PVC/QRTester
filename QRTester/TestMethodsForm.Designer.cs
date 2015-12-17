@@ -59,7 +59,6 @@
             this.cbxRotate.TabIndex = 0;
             this.cbxRotate.Text = "Pasukimas";
             this.cbxRotate.UseVisualStyleBackColor = true;
-            this.cbxRotate.CheckedChanged += new System.EventHandler(this.cbxRotate_CheckedChanged);
             // 
             // tbxRotateAngle
             // 
@@ -88,7 +87,6 @@
             this.cbxMarker.TabIndex = 3;
             this.cbxMarker.Text = "Markeris";
             this.cbxMarker.UseVisualStyleBackColor = true;
-            this.cbxMarker.CheckedChanged += new System.EventHandler(this.cbxMarker_CheckedChanged);
             // 
             // cbxCorner
             // 
@@ -99,7 +97,6 @@
             this.cbxCorner.TabIndex = 4;
             this.cbxCorner.Text = "Kampas";
             this.cbxCorner.UseVisualStyleBackColor = true;
-            this.cbxCorner.CheckedChanged += new System.EventHandler(this.cbxCorner_CheckedChanged);
             // 
             // btnSabotageOk
             // 

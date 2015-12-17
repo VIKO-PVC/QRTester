@@ -250,27 +250,48 @@ namespace Service
 
         public static void ExecuteTopmostImageOperation()
         {
-            var currentOperation = PendingImageOperations.Pop();
+            var initialOperation = PendingImageOperations.Pop();
+            var currentOperation = initialOperation;
+            
+            while (currentOperation != null)
+            {
+                Settings.CurrentImage = ExecuteOperation(currentOperation);
+
+                if (currentOperation.InnerOperation != null)
+                {
+                    currentOperation.InnerOperation.Image = Settings.CurrentImage;
+                }
+
+                currentOperation = currentOperation.InnerOperation;
+            }
+            
+            ExecutedImageOperations.Push(initialOperation);
+        }
+
+        private static Image ExecuteOperation(ImageOperation operation)
+        {
+
             Image transformedImage = null;
 
-            if (currentOperation is RotateOperation)
+            if (operation is RotateOperation)
             {
-                transformedImage = RotateImage(((RotateOperation)currentOperation).RotateAngle, currentOperation.Image);
+                transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
             }
-            else if (currentOperation is CornerOperation)
+            else if (operation is CornerOperation)
             {
-                var cornerOperation = (CornerOperation) currentOperation;
-                transformedImage = CutImageCorned(cornerOperation.TopPositionPercent, cornerOperation.SidePositionPercent, currentOperation.Image);
-                
+                var cornerOperation = (CornerOperation)operation;
+                transformedImage = CutImageCorned(cornerOperation.TopPositionPercent, cornerOperation.SidePositionPercent, operation.Image);
+                transformedImage = RotateImage(GetRotationAngle(0), transformedImage);
+
             }
-            else if (currentOperation is MarkerOperation)
+            else if (operation is MarkerOperation)
             {
-                var markerOperation = (MarkerOperation) currentOperation;
-                transformedImage = DrawMarkerLine(markerOperation.TopPositionPercent, markerOperation.BottomPositionPercent, Color.Black, currentOperation.Image);
+                var markerOperation = (MarkerOperation)operation;
+                transformedImage = DrawMarkerLine(markerOperation.TopPositionPercent, markerOperation.BottomPositionPercent, Color.Black, operation.Image);
+                transformedImage = RotateImage(GetRotationAngle(0), transformedImage);
             }
 
-            Settings.CurrentImage = transformedImage;
-            ExecutedImageOperations.Push(currentOperation);
+            return transformedImage;
         }
 
         public static int GetRotationAngle(int inputAngle)
