@@ -43,7 +43,8 @@ namespace QRTester
                     {
                         ImageService.Settings.UploadedImage = image;
                         ImageService.Settings.CurrentImage = image;
-
+                        ImageService.ExecutedImageOperations.Clear();
+                        
                         RefreshForm();
                         btnSabotage.Show();
                         btnRunTest.Show();
