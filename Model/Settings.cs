@@ -10,9 +10,11 @@
         public Image UploadedImage { get; set; }
         public Image CurrentImage { get; set; }
         public TestPacketSettings TestPacketSettings { get; set; }
+        public bool EnableQrReader { get; set; }
 
         public Settings()
         {
+            EnableQrReader = true;
             ImageUploadUrl = "http://zxing.org/w/decode";
             RequestType = "POST";
             SuccessHtmlFragment = "Decode Succeeded</h1>";

@@ -127,6 +127,7 @@
   <ItemGroup>
     <Content Include="Graphics\Icons\Main.ico" />
     <Content Include="Graphics\Icons\Placeholder.png" />
+    <None Include="Resources\SettignsHelp.png" />
     <None Include="Resources\SabotageFormHelp.png" />
     <None Include="Resources\MainFormHelp.png" />
   </ItemGroup>

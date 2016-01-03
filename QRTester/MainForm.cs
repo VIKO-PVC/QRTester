@@ -20,12 +20,13 @@ namespace QRTester
 
         public MainForm()
         {
-            InitializeComponent();
-
             ImageService.Settings = new Settings();
             ImageService.PendingImageOperations = new Stack<ImageOperation>();
             ImageService.ExecutedImageOperations = new Stack<ImageOperation>();
             ImageService.ActionLog = new List<ActionLogEntry>();
+
+            InitializeComponent();
+
             ofdUploadImage.Filter = "Portable Network Graphics (*.png)|*.png";
         }
 
@@ -50,7 +51,7 @@ namespace QRTester
                 {
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
 
-                    if (ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful)
+                    if (ImageService.Settings.EnableQrReader && ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful)
                     {
                         ImageService.Settings.UploadedImage = image;
                         ImageService.Settings.CurrentImage = image;
@@ -121,7 +122,11 @@ namespace QRTester
         private void ProcessCurrentImage()
         {
             var lastExecutedOperation = ImageService.ExecutedImageOperations.Peek();
-            lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage);
+            if (ImageService.Settings.EnableQrReader)
+            {
+                lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage);
+            }
+
             ImageService.LogLastOperation();
             RefreshForm();
         }
