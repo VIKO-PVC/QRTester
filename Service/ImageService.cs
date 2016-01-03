@@ -252,17 +252,24 @@ namespace Service
         {
             var initialOperation = PendingImageOperations.Pop();
             var currentOperation = initialOperation;
-            
-            while (currentOperation != null)
+
+            try
             {
-                Settings.CurrentImage = ExecuteOperation(currentOperation);
-
-                if (currentOperation.InnerOperation != null)
+                while (currentOperation != null)
                 {
-                    currentOperation.InnerOperation.Image = Settings.CurrentImage;
-                }
+                    Settings.CurrentImage = ExecuteOperation(currentOperation);
 
-                currentOperation = currentOperation.InnerOperation;
+                    if (currentOperation.InnerOperation != null)
+                    {
+                        currentOperation.InnerOperation.Image = Settings.CurrentImage;
+                    }
+
+                    currentOperation = currentOperation.InnerOperation;
+                }
+            }
+            catch (Exception)
+            {
+                Settings.CurrentImage = Settings.UploadedImage;
             }
             
             ExecutedImageOperations.Push(initialOperation);
@@ -307,9 +314,41 @@ namespace Service
             {
                 PendingImageOperations.Push(new RotateOperation()
                 {
+                    Id = Guid.NewGuid(),
                     CheckStatus = CheckImageStatus.NotCheckYet,
-                    Image = Settings.CurrentImage
+                    Image = Settings.CurrentImage,
+                    RotateAngle = i
                 });     
+            }
+
+            for (int i = Settings.TestPacketSettings.MarkerStartStep; i <= 100; i += Settings.TestPacketSettings.MarkerStartStep)
+            {
+                for (int j = Settings.TestPacketSettings.MarkerEndStep; j <= 100; j += Settings.TestPacketSettings.MarkerEndStep)
+                {
+                    PendingImageOperations.Push(new MarkerOperation()
+                    {
+                        Id = Guid.NewGuid(),
+                        CheckStatus = CheckImageStatus.NotCheckYet,
+                        Image = Settings.CurrentImage,
+                        TopPositionPercent = i,
+                        BottomPositionPercent = j
+                    });
+                }
+            }
+
+            for (int i = Settings.TestPacketSettings.CornerTopStep; i <= Settings.TestPacketSettings.CornerTopBoundary; i += Settings.TestPacketSettings.CornerTopStep)
+            {
+                for (int j = Settings.TestPacketSettings.CornerSideStep; j <= Settings.TestPacketSettings.CornerSideBoundary; j += Settings.TestPacketSettings.CornerSideStep)
+                {
+                    PendingImageOperations.Push(new CornerOperation()
+                    {
+                        Id = Guid.NewGuid(),
+                        CheckStatus = CheckImageStatus.NotCheckYet,
+                        Image = Settings.CurrentImage,
+                        TopPositionPercent = i,
+                        SidePositionPercent = j
+                    });
+                }
             }
         }
     }

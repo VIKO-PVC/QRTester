@@ -68,12 +68,17 @@ namespace QRTester
         private void btnRunTest_Click(object sender, EventArgs e)
         {
             ImageService.SetUpTestPacket();
-            
+
+            pgbImageOperations.Value = 0;
+            pgbImageOperations.Maximum = ImageService.PendingImageOperations.Count;
+            pgbImageOperations.Step = 1;
+
             while (ImageService.PendingImageOperations.Any())
             {
                 ImageService.ExecuteTopmostImageOperation();
                 ProcessCurrentImage();
-                Thread.Sleep(5500);
+                pgbImageOperations.Value++;
+                Thread.Sleep(6001);
             }
         }
 
@@ -102,20 +107,14 @@ namespace QRTester
         private void RefreshForm()
         {
             pbxQrImage.Image = ImageService.Settings.CurrentImage.Picture;
+            RefreshActionLog();
             Refresh();
         }
 
         private void ProcessCurrentImage()
         {
-            if (ImageService.CheckImage(ImageService.Settings.CurrentImage) == CheckImageStatus.QrRecognitionSuccessful)
-            {
-                //TODO: logging
-            }
-            else
-            {
-                //TODO: logging
-            }
-
+            var lastExecutedOperation = ImageService.ExecutedImageOperations.Peek();
+            lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage);
             RefreshForm();
         }
 
@@ -125,6 +124,7 @@ namespace QRTester
 
             RefreshForm();
             ShowActionButtons();
+            pgbImageOperations.Value = 0;
         }
 
         private void HideActionButtons()
@@ -137,6 +137,14 @@ namespace QRTester
         {
             btnSabotage.Show();
             btnRunTest.Show();
+        }
+
+        private void RefreshActionLog()
+        {
+            var actionLogMessageIds = lsbActionLog.Items.Cast<ListViewItem>().Select(item => item.Name);
+            var missingOperations = ImageService.ExecutedImageOperations.Where(item => !actionLogMessageIds.Contains(item.Id.ToString()));
+            var missingOperationListItems = missingOperations.Select(item => new ListViewItem() {Name = item.Id.ToString(), Text = item.ToString()});
+            lsbActionLog.Items.AddRange(missingOperationListItems.ToArray());
         }
     }
 }

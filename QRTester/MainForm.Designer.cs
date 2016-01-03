@@ -35,9 +35,10 @@
             this.btnRunTest = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
-            this.tbxConsole = new System.Windows.Forms.TextBox();
             this.ofdUploadImage = new System.Windows.Forms.OpenFileDialog();
             this.btnRevertSabotage = new System.Windows.Forms.Button();
+            this.pgbImageOperations = new System.Windows.Forms.ProgressBar();
+            this.lsbActionLog = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxQrImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,7 +87,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(269, 238);
+            this.btnExit.Location = new System.Drawing.Point(270, 274);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(123, 23);
             this.btnExit.TabIndex = 5;
@@ -96,21 +97,13 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(269, 209);
+            this.btnSettings.Location = new System.Drawing.Point(270, 245);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(123, 23);
             this.btnSettings.TabIndex = 6;
             this.btnSettings.Text = "Nustatymai";
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
-            // tbxConsole
-            // 
-            this.tbxConsole.Location = new System.Drawing.Point(399, 13);
-            this.tbxConsole.Multiline = true;
-            this.tbxConsole.Name = "tbxConsole";
-            this.tbxConsole.Size = new System.Drawing.Size(595, 249);
-            this.tbxConsole.TabIndex = 7;
             // 
             // ofdUploadImage
             // 
@@ -127,13 +120,30 @@
             this.btnRevertSabotage.Visible = false;
             this.btnRevertSabotage.Click += new System.EventHandler(this.btnRevertSabotage_Click);
             // 
+            // pgbImageOperations
+            // 
+            this.pgbImageOperations.Location = new System.Drawing.Point(399, 274);
+            this.pgbImageOperations.Name = "pgbImageOperations";
+            this.pgbImageOperations.Size = new System.Drawing.Size(811, 23);
+            this.pgbImageOperations.TabIndex = 9;
+            // 
+            // lsbActionLog
+            // 
+            this.lsbActionLog.FormattingEnabled = true;
+            this.lsbActionLog.ItemHeight = 16;
+            this.lsbActionLog.Location = new System.Drawing.Point(398, 13);
+            this.lsbActionLog.Name = "lsbActionLog";
+            this.lsbActionLog.Size = new System.Drawing.Size(812, 244);
+            this.lsbActionLog.TabIndex = 10;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1006, 281);
+            this.ClientSize = new System.Drawing.Size(1222, 309);
+            this.Controls.Add(this.lsbActionLog);
+            this.Controls.Add(this.pgbImageOperations);
             this.Controls.Add(this.btnRevertSabotage);
-            this.Controls.Add(this.tbxConsole);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRunTest);
@@ -147,7 +157,6 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbxQrImage)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -159,9 +168,10 @@
         private System.Windows.Forms.Button btnRunTest;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnSettings;
-        private System.Windows.Forms.TextBox tbxConsole;
         private System.Windows.Forms.OpenFileDialog ofdUploadImage;
         private System.Windows.Forms.Button btnRevertSabotage;
+        private System.Windows.Forms.ProgressBar pgbImageOperations;
+        private System.Windows.Forms.ListBox lsbActionLog;
     }
 }
 
