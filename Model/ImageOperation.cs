@@ -4,7 +4,6 @@ namespace Model
 {
     public abstract class ImageOperation
     {
-        public Guid Id { get; set; }
         public Image Image { get; set; }
         public CheckImageStatus CheckStatus { get; set; }
         public ImageOperation InnerOperation { get; set; }

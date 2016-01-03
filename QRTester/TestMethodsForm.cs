@@ -33,7 +33,6 @@ namespace QRTester
             {
                 operations.Push(new RotateOperation()
                 {
-                    Id = Guid.NewGuid(),
                     CheckStatus = checkStatus,
                     Image = image,
                     RotateAngle = Int32.Parse(tbxRotateAngle.Text)
@@ -44,7 +43,6 @@ namespace QRTester
             {
                 operations.Push(new CornerOperation()
                 {
-                    Id = Guid.NewGuid(),
                     CheckStatus = checkStatus,
                     Image = image,
                     TopPositionPercent = Int32.Parse(tbxTopCornerPosition.Text),
@@ -56,7 +54,6 @@ namespace QRTester
             {
                 operations.Push(new MarkerOperation()
                 {
-                    Id = Guid.NewGuid(),
                     CheckStatus = checkStatus,
                     Image = image,
                     TopPositionPercent = Int32.Parse(tbxTopMarkerPosition.Text),

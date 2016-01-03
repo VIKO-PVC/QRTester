@@ -124,7 +124,7 @@
             // 
             this.pgbImageOperations.Location = new System.Drawing.Point(399, 274);
             this.pgbImageOperations.Name = "pgbImageOperations";
-            this.pgbImageOperations.Size = new System.Drawing.Size(811, 23);
+            this.pgbImageOperations.Size = new System.Drawing.Size(955, 23);
             this.pgbImageOperations.TabIndex = 9;
             // 
             // lsbActionLog
@@ -133,14 +133,15 @@
             this.lsbActionLog.ItemHeight = 16;
             this.lsbActionLog.Location = new System.Drawing.Point(398, 13);
             this.lsbActionLog.Name = "lsbActionLog";
-            this.lsbActionLog.Size = new System.Drawing.Size(812, 244);
+            this.lsbActionLog.Size = new System.Drawing.Size(956, 244);
             this.lsbActionLog.TabIndex = 10;
+            this.lsbActionLog.DoubleClick += new System.EventHandler(this.lsbActionLog_DoubleClick);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1222, 309);
+            this.ClientSize = new System.Drawing.Size(1366, 309);
             this.Controls.Add(this.lsbActionLog);
             this.Controls.Add(this.pgbImageOperations);
             this.Controls.Add(this.btnRevertSabotage);

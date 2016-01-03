@@ -15,6 +15,7 @@ namespace Service
         public static Settings Settings { get; set; }
         public static Stack<ImageOperation> PendingImageOperations { get; set; }
         public static Stack<ImageOperation> ExecutedImageOperations { get; set; }
+        public static List<ActionLogEntry> ActionLog { get; set; }
 
         public static Image GetPicture(Stream fileStream)
         {
@@ -314,7 +315,6 @@ namespace Service
             {
                 PendingImageOperations.Push(new RotateOperation()
                 {
-                    Id = Guid.NewGuid(),
                     CheckStatus = CheckImageStatus.NotCheckYet,
                     Image = Settings.CurrentImage,
                     RotateAngle = i
@@ -327,7 +327,6 @@ namespace Service
                 {
                     PendingImageOperations.Push(new MarkerOperation()
                     {
-                        Id = Guid.NewGuid(),
                         CheckStatus = CheckImageStatus.NotCheckYet,
                         Image = Settings.CurrentImage,
                         TopPositionPercent = i,
@@ -342,7 +341,6 @@ namespace Service
                 {
                     PendingImageOperations.Push(new CornerOperation()
                     {
-                        Id = Guid.NewGuid(),
                         CheckStatus = CheckImageStatus.NotCheckYet,
                         Image = Settings.CurrentImage,
                         TopPositionPercent = i,
@@ -350,6 +348,19 @@ namespace Service
                     });
                 }
             }
+        }
+
+        public static void LogLastOperation()
+        {
+            var lastOperation = ExecutedImageOperations.Peek();
+            var logEntry = new ActionLogEntry()
+            {
+                Id = Guid.NewGuid(),
+                Description = lastOperation.ToString(),
+                Image = Settings.CurrentImage.Copy()
+            };
+
+            ActionLog.Add(logEntry);
         }
     }
 }

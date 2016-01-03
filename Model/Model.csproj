@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionLogEntry.cs" />
     <Compile Include="CheckImageResult.cs" />
     <Compile Include="ImageOperation.cs" />
     <Compile Include="Settings.cs" />

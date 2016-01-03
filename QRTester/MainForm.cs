@@ -13,6 +13,7 @@ namespace QRTester
     {
         private static TestMethodsForm testMethodsForm;
         private static SettingsForm settingsForm;
+        private static ActionLogForm actionLogForm;
 
         public MainForm()
         {
@@ -21,6 +22,7 @@ namespace QRTester
             ImageService.Settings = new Settings();
             ImageService.PendingImageOperations = new Stack<ImageOperation>();
             ImageService.ExecutedImageOperations = new Stack<ImageOperation>();
+            ImageService.ActionLog = new List<ActionLogEntry>();
             ofdUploadImage.Filter = "Portable Network Graphics (*.png)|*.png";
         }
 
@@ -31,6 +33,7 @@ namespace QRTester
             testMethodsForm.RefreshMainFormHandler += HideActionButtons;
 
             settingsForm = new SettingsForm();
+            actionLogForm = new ActionLogForm();
         }
 
         private void btnUploadQr_Click(object sender, EventArgs e)
@@ -78,7 +81,7 @@ namespace QRTester
                 ImageService.ExecuteTopmostImageOperation();
                 ProcessCurrentImage();
                 pgbImageOperations.Value++;
-                Thread.Sleep(6001);
+                Thread.Sleep(6000);
             }
         }
 
@@ -115,6 +118,7 @@ namespace QRTester
         {
             var lastExecutedOperation = ImageService.ExecutedImageOperations.Peek();
             lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage);
+            ImageService.LogLastOperation();
             RefreshForm();
         }
 
@@ -142,9 +146,16 @@ namespace QRTester
         private void RefreshActionLog()
         {
             var actionLogMessageIds = lsbActionLog.Items.Cast<ListViewItem>().Select(item => item.Name);
-            var missingOperations = ImageService.ExecutedImageOperations.Where(item => !actionLogMessageIds.Contains(item.Id.ToString()));
-            var missingOperationListItems = missingOperations.Select(item => new ListViewItem() {Name = item.Id.ToString(), Text = item.ToString()});
+            var missingOperations = ImageService.ActionLog.Where(item => !actionLogMessageIds.Contains(item.Id.ToString()));
+            var missingOperationListItems = missingOperations.Select(item => new ListViewItem() {Name = item.Id.ToString(), Text = item.Description});
             lsbActionLog.Items.AddRange(missingOperationListItems.ToArray());
+        }
+
+        private void lsbActionLog_DoubleClick(object sender, EventArgs e)
+        {
+            var selectedItem = lsbActionLog.SelectedItem;
+            var actionLogEntry = ImageService.ActionLog.Single(item => ((ListViewItem)selectedItem).Name == item.Id.ToString());
+            actionLogForm.Initialize(actionLogEntry.Image.Picture, actionLogEntry.Description);
         }
     }
 }
