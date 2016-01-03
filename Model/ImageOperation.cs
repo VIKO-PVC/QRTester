@@ -1,6 +1,6 @@
 ﻿namespace Model
 {
-    public class ImageOperation
+    public abstract class ImageOperation
     {
         public Image Image { get; set; }
         public CheckImageStatus CheckStatus { get; set; }

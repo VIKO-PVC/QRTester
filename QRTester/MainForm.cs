@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Model;
 using Service;
@@ -25,6 +28,7 @@ namespace QRTester
         {
             testMethodsForm = new TestMethodsForm();
             testMethodsForm.RefreshMainFormHandler += ProcessCurrentImage;
+            testMethodsForm.RefreshMainFormHandler += HideActionButtons;
 
             settingsForm = new SettingsForm();
         }
@@ -46,8 +50,8 @@ namespace QRTester
                         ImageService.ExecutedImageOperations.Clear();
                         
                         RefreshForm();
-                        btnSabotage.Show();
-                        btnRunTest.Show();
+                        ShowActionButtons();
+                        btnRevertSabotage.Show();
                     }
                     else
                     {
@@ -63,21 +67,20 @@ namespace QRTester
 
         private void btnRunTest_Click(object sender, EventArgs e)
         {
-            testMethodsForm.MultipleChoises = true;
-            testMethodsForm.Initialize();
-            testMethodsForm.ShowDialog();
+            ImageService.SetUpTestPacket();
+            
+            while (ImageService.PendingImageOperations.Any())
+            {
+                ImageService.ExecuteTopmostImageOperation();
+                ProcessCurrentImage();
+                Thread.Sleep(5500);
+            }
         }
 
         private void btnSabotage_Click(object sender, EventArgs e)
         {
-            testMethodsForm.MultipleChoises = false;
             testMethodsForm.Initialize();
             testMethodsForm.ShowDialog();
-        }
-
-        private void btnTryDecode_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -114,6 +117,26 @@ namespace QRTester
             }
 
             RefreshForm();
+        }
+
+        private void btnRevertSabotage_Click(object sender, EventArgs e)
+        {
+            ImageService.Settings.CurrentImage = ImageService.Settings.UploadedImage;
+
+            RefreshForm();
+            ShowActionButtons();
+        }
+
+        private void HideActionButtons()
+        {
+            btnSabotage.Hide();
+            btnRunTest.Hide();
+        }
+
+        private void ShowActionButtons()
+        {
+            btnSabotage.Show();
+            btnRunTest.Show();
         }
     }
 }

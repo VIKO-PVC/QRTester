@@ -44,9 +44,9 @@ namespace Service
             }
 
             // http://stackoverflow.com/questions/566462/upload-files-with-httpwebrequest-multipart-form-data
-            var response = HttpUploadFile(Settings.ImageUploadUrl, image, "f", "image/" + imageFormat);
+            var response = HttpUploadFile(image, "f", "image/" + imageFormat);
 
-            if (IsResponseValid(response, Settings))
+            if (IsResponseValid(response))
             {
                 return CheckImageStatus.QrRecognitionSuccessful;
             }
@@ -54,14 +54,14 @@ namespace Service
             return CheckImageStatus.QrRecognitionFailed;
         }
 
-        public static HttpWebResponse HttpUploadFile(string url, Image image, string paramName, string contentType)
+        public static HttpWebResponse HttpUploadFile(Image image, string paramName, string contentType)
         {
             string boundary = "---------------------------" + (DateTime.Now.Ticks - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).Ticks);
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(Settings.ImageUploadUrl);
             wr.ContentType = "multipart/form-data; boundary=" + boundary;
-            wr.Method = "POST";
+            wr.Method = Settings.RequestType;
             wr.KeepAlive = true;
 
             Stream rs = wr.GetRequestStream();
@@ -101,7 +101,7 @@ namespace Service
             return response;
         }
 
-        public static bool IsResponseValid(HttpWebResponse response, Settings settings)
+        public static bool IsResponseValid(HttpWebResponse response)
         {
             if (!String.IsNullOrEmpty(Settings.SuccessHtmlFragment))
             {   
@@ -139,7 +139,7 @@ namespace Service
             var newImgHeight = sin * bitmap.Width + cos * bitmap.Height;
             var originX = 0f;
             var originY = 0f;
-
+            
             if (angle > 0)
             {
                 if (angle <= 90)
@@ -213,7 +213,7 @@ namespace Service
             };
         }
 
-        public static Image CutImageCorned(int topPositionPercentage, int sidePositionPercentage, Image image)
+        public static Image CutImageCorner(int topPositionPercentage, int sidePositionPercentage, Image image)
         {
             var topPosition = image.Picture.Width * topPositionPercentage / 100;
             var sidePosition = image.Picture.Width * sidePositionPercentage / 100;
@@ -280,7 +280,7 @@ namespace Service
             else if (operation is CornerOperation)
             {
                 var cornerOperation = (CornerOperation)operation;
-                transformedImage = CutImageCorned(cornerOperation.TopPositionPercent, cornerOperation.SidePositionPercent, operation.Image);
+                transformedImage = CutImageCorner(cornerOperation.TopPositionPercent, cornerOperation.SidePositionPercent, operation.Image);
                 transformedImage = RotateImage(GetRotationAngle(0), transformedImage);
 
             }
@@ -299,6 +299,18 @@ namespace Service
             var a =
                 ExecutedImageOperations.Where(item => item is RotateOperation).Sum(item => ((RotateOperation) item).RotateAngle);
             return (a + inputAngle) % 360;
+        }
+
+        public static void SetUpTestPacket()
+        {
+            for (int i = Settings.TestPacketSettings.RotationStep; i <= 360; i += Settings.TestPacketSettings.RotationStep)
+            {
+                PendingImageOperations.Push(new RotateOperation()
+                {
+                    CheckStatus = CheckImageStatus.NotCheckYet,
+                    Image = Settings.CurrentImage
+                });     
+            }
         }
     }
 }

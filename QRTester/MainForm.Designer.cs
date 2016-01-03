@@ -37,6 +37,7 @@
             this.btnSettings = new System.Windows.Forms.Button();
             this.tbxConsole = new System.Windows.Forms.TextBox();
             this.ofdUploadImage = new System.Windows.Forms.OpenFileDialog();
+            this.btnRevertSabotage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxQrImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,7 +48,7 @@
             this.pbxQrImage.Location = new System.Drawing.Point(12, 12);
             this.pbxQrImage.Name = "pbxQrImage";
             this.pbxQrImage.Size = new System.Drawing.Size(250, 250);
-            this.pbxQrImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbxQrImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxQrImage.TabIndex = 0;
             this.pbxQrImage.TabStop = false;
             // 
@@ -63,7 +64,7 @@
             // 
             // btnSabotage
             // 
-            this.btnSabotage.Location = new System.Drawing.Point(269, 72);
+            this.btnSabotage.Location = new System.Drawing.Point(270, 100);
             this.btnSabotage.Name = "btnSabotage";
             this.btnSabotage.Size = new System.Drawing.Size(123, 23);
             this.btnSabotage.TabIndex = 2;
@@ -74,7 +75,7 @@
             // 
             // btnRunTest
             // 
-            this.btnRunTest.Location = new System.Drawing.Point(269, 43);
+            this.btnRunTest.Location = new System.Drawing.Point(270, 71);
             this.btnRunTest.Name = "btnRunTest";
             this.btnRunTest.Size = new System.Drawing.Size(123, 23);
             this.btnRunTest.TabIndex = 4;
@@ -115,11 +116,23 @@
             // 
             this.ofdUploadImage.FileName = "imageUpload";
             // 
+            // btnRevertSabotage
+            // 
+            this.btnRevertSabotage.Location = new System.Drawing.Point(270, 42);
+            this.btnRevertSabotage.Name = "btnRevertSabotage";
+            this.btnRevertSabotage.Size = new System.Drawing.Size(123, 23);
+            this.btnRevertSabotage.TabIndex = 8;
+            this.btnRevertSabotage.Text = "Atstatyti";
+            this.btnRevertSabotage.UseVisualStyleBackColor = true;
+            this.btnRevertSabotage.Visible = false;
+            this.btnRevertSabotage.Click += new System.EventHandler(this.btnRevertSabotage_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 281);
+            this.Controls.Add(this.btnRevertSabotage);
             this.Controls.Add(this.tbxConsole);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnExit);
@@ -148,6 +161,7 @@
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.TextBox tbxConsole;
         private System.Windows.Forms.OpenFileDialog ofdUploadImage;
+        private System.Windows.Forms.Button btnRevertSabotage;
     }
 }
 

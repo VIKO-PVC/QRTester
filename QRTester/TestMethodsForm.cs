@@ -9,8 +9,6 @@ namespace QRTester
     public partial class TestMethodsForm : Form
     {
         public delegate void RefreshMainFormDelegate();
-
-        public bool MultipleChoises { get; set; }
         public RefreshMainFormDelegate RefreshMainFormHandler { get; set; }
 
 
@@ -27,7 +25,7 @@ namespace QRTester
         private void btnSabotageOk_Click(object sender, EventArgs e)
         {
             var checkStatus = CheckImageStatus.NotCheckYet;
-            var image = ImageService.Settings.UploadedImage;
+            var image = ImageService.Settings.CurrentImage;
 
             Stack<ImageOperation> operations = new Stack<ImageOperation>();
             
@@ -37,7 +35,7 @@ namespace QRTester
                 {
                     CheckStatus = checkStatus,
                     Image = image,
-                    RotateAngle = ImageService.GetRotationAngle(Int32.Parse(tbxRotateAngle.Text))
+                    RotateAngle = Int32.Parse(tbxRotateAngle.Text)
                 });
             }
 
