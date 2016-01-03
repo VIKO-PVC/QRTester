@@ -48,6 +48,7 @@
             this.lblCornerSidePosition = new System.Windows.Forms.Label();
             this.tbxCornerSidePosition = new System.Windows.Forms.TextBox();
             this.lblCornerSidePositionPercentage = new System.Windows.Forms.Label();
+            this.btnSabotageHelp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cbxRotate
@@ -100,7 +101,7 @@
             // 
             // btnSabotageOk
             // 
-            this.btnSabotageOk.Location = new System.Drawing.Point(13, 111);
+            this.btnSabotageOk.Location = new System.Drawing.Point(12, 111);
             this.btnSabotageOk.Name = "btnSabotageOk";
             this.btnSabotageOk.Size = new System.Drawing.Size(75, 23);
             this.btnSabotageOk.TabIndex = 5;
@@ -222,11 +223,22 @@
             this.lblCornerSidePositionPercentage.TabIndex = 18;
             this.lblCornerSidePositionPercentage.Text = "%";
             // 
+            // btnSabotageHelp
+            // 
+            this.btnSabotageHelp.Location = new System.Drawing.Point(93, 111);
+            this.btnSabotageHelp.Name = "btnSabotageHelp";
+            this.btnSabotageHelp.Size = new System.Drawing.Size(75, 23);
+            this.btnSabotageHelp.TabIndex = 19;
+            this.btnSabotageHelp.Text = "Pagalba";
+            this.btnSabotageHelp.UseVisualStyleBackColor = true;
+            this.btnSabotageHelp.Click += new System.EventHandler(this.btnSabotageHelp_Click);
+            // 
             // TestMethodsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(406, 145);
+            this.Controls.Add(this.btnSabotageHelp);
             this.Controls.Add(this.lblCornerSidePositionPercentage);
             this.Controls.Add(this.tbxCornerSidePosition);
             this.Controls.Add(this.lblCornerSidePosition);
@@ -275,5 +287,6 @@
         private System.Windows.Forms.Label lblCornerSidePosition;
         private System.Windows.Forms.TextBox tbxCornerSidePosition;
         private System.Windows.Forms.Label lblCornerSidePositionPercentage;
+        private System.Windows.Forms.Button btnSabotageHelp;
     }
 }

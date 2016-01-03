@@ -289,14 +289,12 @@ namespace Service
             {
                 var cornerOperation = (CornerOperation)operation;
                 transformedImage = CutImageCorner(cornerOperation.TopPositionPercent, cornerOperation.SidePositionPercent, operation.Image);
-                transformedImage = RotateImage(GetRotationAngle(0), transformedImage);
 
             }
             else if (operation is MarkerOperation)
             {
                 var markerOperation = (MarkerOperation)operation;
                 transformedImage = DrawMarkerLine(markerOperation.TopPositionPercent, markerOperation.BottomPositionPercent, Color.Black, operation.Image);
-                transformedImage = RotateImage(GetRotationAngle(0), transformedImage);
             }
 
             return transformedImage;

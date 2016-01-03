@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Model;
+using QRTester.Properties;
 using Service;
 
 namespace QRTester
 {
     public partial class TestMethodsForm : Form
     {
+        private static HelpForm helpForm;
+
         public delegate void RefreshMainFormDelegate();
         public RefreshMainFormDelegate RefreshMainFormHandler { get; set; }
 
 
         public TestMethodsForm()
         {
+            helpForm = new HelpForm();
             InitializeComponent();
         }
 
@@ -127,6 +131,11 @@ namespace QRTester
                 tbxCornerSidePosition.Text = 0.ToString();
             }
 
+        }
+
+        private void btnSabotageHelp_Click(object sender, EventArgs e)
+        {
+            helpForm.Initialize(Resources.SabotageFormHelp);
         }
     }
 }

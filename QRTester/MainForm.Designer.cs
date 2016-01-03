@@ -39,6 +39,7 @@
             this.btnRevertSabotage = new System.Windows.Forms.Button();
             this.pgbImageOperations = new System.Windows.Forms.ProgressBar();
             this.lsbActionLog = new System.Windows.Forms.ListBox();
+            this.btnHelp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxQrImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,7 +98,7 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(270, 245);
+            this.btnSettings.Location = new System.Drawing.Point(268, 216);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(123, 23);
             this.btnSettings.TabIndex = 6;
@@ -137,11 +138,22 @@
             this.lsbActionLog.TabIndex = 10;
             this.lsbActionLog.DoubleClick += new System.EventHandler(this.lsbActionLog_DoubleClick);
             // 
+            // btnHelp
+            // 
+            this.btnHelp.Location = new System.Drawing.Point(270, 245);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(123, 23);
+            this.btnHelp.TabIndex = 11;
+            this.btnHelp.Text = "Pagalba";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1366, 309);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.lsbActionLog);
             this.Controls.Add(this.pgbImageOperations);
             this.Controls.Add(this.btnRevertSabotage);
@@ -173,6 +185,7 @@
         private System.Windows.Forms.Button btnRevertSabotage;
         private System.Windows.Forms.ProgressBar pgbImageOperations;
         private System.Windows.Forms.ListBox lsbActionLog;
+        private System.Windows.Forms.Button btnHelp;
     }
 }
 

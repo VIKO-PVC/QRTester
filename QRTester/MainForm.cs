@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Model;
+using QRTester.Properties;
 using Service;
+using Settings = Model.Settings;
 
 namespace QRTester
 {
@@ -14,6 +16,7 @@ namespace QRTester
         private static TestMethodsForm testMethodsForm;
         private static SettingsForm settingsForm;
         private static ActionLogForm actionLogForm;
+        private static HelpForm helpForm;
 
         public MainForm()
         {
@@ -34,6 +37,7 @@ namespace QRTester
 
             settingsForm = new SettingsForm();
             actionLogForm = new ActionLogForm();
+            helpForm = new HelpForm();
         }
 
         private void btnUploadQr_Click(object sender, EventArgs e)
@@ -156,6 +160,11 @@ namespace QRTester
             var selectedItem = lsbActionLog.SelectedItem;
             var actionLogEntry = ImageService.ActionLog.Single(item => ((ListViewItem)selectedItem).Name == item.Id.ToString());
             actionLogForm.Initialize(actionLogEntry.Image.Picture, actionLogEntry.Description);
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            helpForm.Initialize(Resources.MainFormHelp);
         }
     }
 }
