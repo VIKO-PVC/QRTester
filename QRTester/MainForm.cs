@@ -46,7 +46,7 @@ namespace QRTester
             // https://msdn.microsoft.com/en-us/library/cc221415%28v=vs.95%29.aspx
             if (ofdUploadImage.ShowDialog() == DialogResult.OK)
             {
-                Image image;
+                Image image = null;
                 try
                 {
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
@@ -60,21 +60,47 @@ namespace QRTester
                         RefreshForm();
                         ShowActionButtons();
                         btnRevertSabotage.Show();
+
+                        ImageService.ActionLog.Add(new ActionLogEntry()
+                        {
+                            Id = Guid.NewGuid(),
+                            Description = "Sėkmingai įkeltas QR simbolis",
+                            Image = image
+                        });
                     }
                     else
                     {
-                        DisplayError("Not recognised");
+                        ImageService.ActionLog.Add(new ActionLogEntry()
+                        {
+                            Id = Guid.NewGuid(),
+                            Description = "Įkeltas paveiksliukas yra ne QR simbolis.",
+                            Image = image
+                        });
                     }
                 }
                 catch (Exception exception)
                 {
-                    DisplayError(exception.Message); //TODO: Innermost message
+                    ImageService.ActionLog.Add(new ActionLogEntry()
+                    {
+                        Id = Guid.NewGuid(),
+                        Description = "Įkeliant paveiksliuką įvyko klaida: " + exception.Message,
+                        Image = image
+                    });
                 }
             }
+
+            RefreshActionLog();
         }
 
         private void btnRunTest_Click(object sender, EventArgs e)
         {
+            ImageService.ActionLog.Add(new ActionLogEntry()
+            {
+                Id = Guid.NewGuid(),
+                Description = "Pradėtas testų paketo vykdymas"
+            });
+            RefreshActionLog();
+
             ImageService.SetUpTestPacket();
 
             pgbImageOperations.Value = 0;
@@ -88,6 +114,13 @@ namespace QRTester
                 pgbImageOperations.Value++;
                 Thread.Sleep(6000);
             }
+
+            ImageService.ActionLog.Add(new ActionLogEntry()
+            {
+                Id = Guid.NewGuid(),
+                Description = "Testų paketo vykdymas baigtas"
+            });
+            RefreshActionLog();
         }
 
         private void btnSabotage_Click(object sender, EventArgs e)
@@ -103,12 +136,6 @@ namespace QRTester
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void DisplayError(string message)
-        {
-            // TODO: Log in the console as an error
-            MessageBox.Show(message);
         }
 
         private void RefreshForm()
@@ -153,8 +180,8 @@ namespace QRTester
 
         private void RefreshActionLog()
         {
-            var actionLogMessageIds = lsbActionLog.Items.Cast<ListViewItem>().Select(item => item.Name);
-            var missingOperations = ImageService.ActionLog.Where(item => !actionLogMessageIds.Contains(item.Id.ToString()));
+            var actionLogMessageIds = lsbActionLog.Items.Cast<ActionLogEntry>().Select(item => item.Id);
+            var missingOperations = ImageService.ActionLog.Where(item => !actionLogMessageIds.Contains(item.Id));
             lsbActionLog.Items.AddRange(missingOperations.ToArray());
         }
 

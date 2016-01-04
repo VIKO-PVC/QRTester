@@ -40,11 +40,15 @@ namespace Service
             }
             else
             {
-                // TODO: Logging
+                ActionLog.Add(new ActionLogEntry()
+                {
+                    Id = Guid.NewGuid(),
+                    Description = "Blogas paveiksliuko formatas"
+                });
+
                 return CheckImageStatus.NotCheckYet;
             }
-
-            // http://stackoverflow.com/questions/566462/upload-files-with-httpwebrequest-multipart-form-data
+            
             var response = HttpUploadFile(image, "f", "image/" + imageFormat);
 
             if (IsResponseValid(response))
@@ -69,7 +73,7 @@ namespace Service
             
             rs.Write(boundarybytes, 0, boundarybytes.Length);
             string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            string header = string.Format(headerTemplate, paramName, "a.png", contentType); // TODO: Change file name
+            string header = string.Format(headerTemplate, paramName, "a.png", contentType);
             byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
             rs.Write(headerbytes, 0, headerbytes.Length);
             
@@ -94,9 +98,13 @@ namespace Service
             {
                 response = (HttpWebResponse)wr.GetResponse();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // TODO: Logging
+                ActionLog.Add(new ActionLogEntry()
+                {
+                    Id = Guid.NewGuid(),
+                    Description = "Klaida siunčiant QR simbolio tikrinimo užklausą: " + exception.Message
+                });
             }
 
             return response;
@@ -174,8 +182,7 @@ namespace Service
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
             graphics.DrawImageUnscaled(bitmap, 0, 0); // draw the image at 0, 0
             graphics.Dispose();
-
-            // TODO: Enable sending .bmp's?
+            
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 newImage.Save(memoryStream, ImageFormat.Png);
@@ -205,8 +212,7 @@ namespace Service
             var graphics = Graphics.FromImage(newImage);
             graphics.DrawLine(new Pen(markerColor, markerWidth), start.X, start.Y, end.X, end.Y);
             graphics.Dispose();
-
-            // TODO: Enable sending .bmp's?
+            
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 newImage.Save(memoryStream, ImageFormat.Png);
@@ -229,7 +235,6 @@ namespace Service
             
             var currentPoint = new Point(0, 0);
             
-            //TODO: Move colors to settings?
             while (bitmapWithBoundary.GetPixel(0, currentPoint.Y).ToArgb() != Color.Red.ToArgb())
             {
                 while (bitmapWithBoundary.GetPixel(currentPoint.X, currentPoint.Y).ToArgb() != Color.Red.ToArgb())
