@@ -125,8 +125,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Graphics\Icons\Main.ico" />
-    <Content Include="Graphics\Icons\Placeholder.png" />
+    <Content Include="Graphics\Icons\Main.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Graphics\Icons\Placeholder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\SettignsHelp.png" />
     <None Include="Resources\SabotageFormHelp.png" />
     <None Include="Resources\MainFormHelp.png" />
