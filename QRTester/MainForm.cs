@@ -155,14 +155,13 @@ namespace QRTester
         {
             var actionLogMessageIds = lsbActionLog.Items.Cast<ListViewItem>().Select(item => item.Name);
             var missingOperations = ImageService.ActionLog.Where(item => !actionLogMessageIds.Contains(item.Id.ToString()));
-            var missingOperationListItems = missingOperations.Select(item => new ListViewItem() {Name = item.Id.ToString(), Text = item.Description});
-            lsbActionLog.Items.AddRange(missingOperationListItems.ToArray());
+            lsbActionLog.Items.AddRange(missingOperations.ToArray());
         }
 
         private void lsbActionLog_DoubleClick(object sender, EventArgs e)
         {
             var selectedItem = lsbActionLog.SelectedItem;
-            var actionLogEntry = ImageService.ActionLog.Single(item => ((ListViewItem)selectedItem).Name == item.Id.ToString());
+            var actionLogEntry = ImageService.ActionLog.Single(item => ((ActionLogEntry)selectedItem).Id == item.Id);
             actionLogForm.Initialize(actionLogEntry.Image.Picture, actionLogEntry.Description);
         }
 
