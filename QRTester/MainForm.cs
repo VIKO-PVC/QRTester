@@ -92,7 +92,6 @@ namespace QRTester
 
         private void btnSabotage_Click(object sender, EventArgs e)
         {
-            testMethodsForm.Initialize();
             testMethodsForm.ShowDialog();
         }
 

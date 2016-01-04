@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using Model;
 using QRTester.Properties;
@@ -20,12 +21,7 @@ namespace QRTester
             helpForm = new HelpForm();
             InitializeComponent();
         }
-
-        public void Initialize()
-        {
-            tbxRotateAngle.Text = 0.ToString();
-        }
-
+        
         private void btnSabotageOk_Click(object sender, EventArgs e)
         {
             var checkStatus = CheckImageStatus.NotCheckYet;
@@ -90,45 +86,113 @@ namespace QRTester
         private void tbxRotateAngle_TextChanged(object sender, EventArgs e)
         {
             int parsedNumber;
-            if (!Int32.TryParse(tbxRotateAngle.Text, out parsedNumber) || parsedNumber > 360 || parsedNumber < 0)
+            if (!String.IsNullOrEmpty(tbxRotateAngle.Text) && (!Int32.TryParse(tbxRotateAngle.Text, out parsedNumber) || parsedNumber > 360 || parsedNumber < 0))
             {
-                tbxRotateAngle.Text = 0.ToString();
+                tbxRotateAngle.Text = tbxRotateAngle.Tag.ToString();
+                if (String.IsNullOrEmpty(tbxRotateAngle.Text))
+                {
+                    cbxRotate.Checked = false;
+                }
+            }
+            else
+            {
+                tbxRotateAngle.Tag = tbxRotateAngle.Text;
+                tbxRotateAngle.SelectionStart = tbxRotateAngle.Text.Length;
+                cbxRotate.Checked = true;
             }
         }
 
         private void tbxTopMarkerPosition_TextChanged(object sender, EventArgs e)
         {
             int parsedNumber;
-            if (!Int32.TryParse(tbxTopMarkerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            if (!String.IsNullOrEmpty(tbxTopMarkerPosition.Text) && (!Int32.TryParse(tbxTopMarkerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0))
             {
-                tbxTopMarkerPosition.Text = 0.ToString();
+                tbxTopMarkerPosition.Text = tbxTopMarkerPosition.Tag.ToString();
+
+                if (String.IsNullOrEmpty(tbxTopMarkerPosition.Text))
+                {
+                    cbxMarker.Checked = false;
+                }
+            }
+            else
+            {
+                tbxTopMarkerPosition.Tag = tbxTopMarkerPosition.Text;
+                tbxTopMarkerPosition.SelectionStart = tbxTopMarkerPosition.Text.Length;
+
+                if (!String.IsNullOrEmpty(tbxBottomMarkerPosition.Text))
+                {
+                    cbxMarker.Checked = true;
+                }
             }
         }
 
         private void tbxBottomMarkerPosition_TextChanged(object sender, EventArgs e)
         {
             int parsedNumber;
-            if (!Int32.TryParse(tbxBottomMarkerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            if (!String.IsNullOrEmpty(tbxBottomMarkerPosition.Text) && (!Int32.TryParse(tbxBottomMarkerPosition.Text, out parsedNumber) || parsedNumber > 100 ||
+                parsedNumber < 0))
             {
-                tbxBottomMarkerPosition.Text = 0.ToString();
+                tbxBottomMarkerPosition.Text = tbxBottomMarkerPosition.Tag.ToString();
+                if (String.IsNullOrEmpty(tbxBottomMarkerPosition.Text))
+                {
+                    cbxMarker.Checked = false;
+                }
+            }
+            else
+            {
+                tbxBottomMarkerPosition.Tag = tbxBottomMarkerPosition.Text;
+                tbxBottomMarkerPosition.SelectionStart = tbxBottomMarkerPosition.Text.Length;
+
+                if (!String.IsNullOrEmpty(tbxTopMarkerPosition.Text))
+                {
+                    cbxMarker.Checked = true;
+                }
             }
         }
 
         private void tbxTopCornerPosition_TextChanged(object sender, EventArgs e)
         {
             int parsedNumber;
-            if (!Int32.TryParse(tbxTopCornerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            if (!String.IsNullOrEmpty(tbxTopCornerPosition.Text) && (!Int32.TryParse(tbxTopCornerPosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0))
             {
-                tbxTopCornerPosition.Text = 0.ToString();
+                tbxTopCornerPosition.Text = tbxTopCornerPosition.Tag.ToString();
+                if (String.IsNullOrEmpty(tbxTopCornerPosition.Text))
+                {
+                    cbxCorner.Checked = false;
+                }
+            }
+            else
+            {
+                tbxTopCornerPosition.Tag = tbxTopCornerPosition.Text;
+                tbxTopCornerPosition.SelectionStart = tbxTopCornerPosition.Text.Length;
+
+                if (!String.IsNullOrEmpty(tbxCornerSidePosition.Text))
+                {
+                    cbxCorner.Checked = true;
+                }
             }
         }
 
         private void tbxCornerSidePosition_TextChanged(object sender, EventArgs e)
         {
             int parsedNumber;
-            if (!Int32.TryParse(tbxCornerSidePosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0)
+            if (!String.IsNullOrEmpty(tbxCornerSidePosition.Text) && (!Int32.TryParse(tbxCornerSidePosition.Text, out parsedNumber) || parsedNumber > 100 || parsedNumber < 0))
             {
-                tbxCornerSidePosition.Text = 0.ToString();
+                tbxCornerSidePosition.Text = tbxCornerSidePosition.Tag.ToString();
+                if (String.IsNullOrEmpty(tbxCornerSidePosition.Text))
+                {
+                    cbxCorner.Checked = false;
+                }
+            }
+            else
+            {
+                tbxCornerSidePosition.Tag = tbxCornerSidePosition.Text;
+                tbxCornerSidePosition.SelectionStart = tbxCornerSidePosition.Text.Length;
+
+                if (!String.IsNullOrEmpty(tbxTopCornerPosition.Text))
+                {
+                    cbxCorner.Checked = true;
+                }
             }
 
         }
@@ -136,6 +200,32 @@ namespace QRTester
         private void btnSabotageHelp_Click(object sender, EventArgs e)
         {
             helpForm.Initialize(Resources.SabotageFormHelp);
+        }
+
+        private void cbxRotate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxRotate.Checked)
+            {
+                tbxRotateAngle.Text = String.IsNullOrEmpty(tbxRotateAngle.Text) ? 0.ToString() : tbxRotateAngle.Text;
+            }
+        }
+
+        private void cbxMarker_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxMarker.Checked)
+            {
+                tbxTopMarkerPosition.Text = String.IsNullOrEmpty(tbxTopMarkerPosition.Text) ? 0.ToString() : tbxTopMarkerPosition.Text;
+                tbxBottomMarkerPosition.Text = String.IsNullOrEmpty(tbxBottomMarkerPosition.Text) ? 0.ToString() : tbxBottomMarkerPosition.Text;
+            }
+        }
+
+        private void cbxCorner_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxCorner.Checked)
+            {
+                tbxCornerSidePosition.Text = String.IsNullOrEmpty(tbxCornerSidePosition.Text) ? 0.ToString() : tbxCornerSidePosition.Text;
+                tbxTopCornerPosition.Text = String.IsNullOrEmpty(tbxTopCornerPosition.Text) ? 0.ToString() : tbxTopCornerPosition.Text;
+            }
         }
     }
 }

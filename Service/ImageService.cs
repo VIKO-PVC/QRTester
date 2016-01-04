@@ -104,6 +104,11 @@ namespace Service
 
         public static bool IsResponseValid(HttpWebResponse response)
         {
+            if (response == null)
+            {
+                return false;
+            }
+
             if (!String.IsNullOrEmpty(Settings.SuccessHtmlFragment))
             {   
                 Stream responseStream = response.GetResponseStream();
