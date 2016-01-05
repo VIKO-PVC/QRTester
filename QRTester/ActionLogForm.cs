@@ -20,7 +20,7 @@ namespace QRTester
             }
             else
             {
-
+                lblDecryptedValue.Text = String.Empty;
                 pbcActionLogImage.Image = pbcActionLogImage.InitialImage;
             }
 

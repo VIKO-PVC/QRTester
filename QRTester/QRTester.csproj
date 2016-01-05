@@ -131,8 +131,8 @@
     <Content Include="Graphics\Icons\Placeholder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\SettignsHelp.png" />
     <None Include="Resources\SabotageFormHelp.png" />
+    <None Include="Resources\SettignsHelp.png" />
     <None Include="Resources\MainFormHelp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -39,6 +39,27 @@ namespace QRTester
                     RotateAngle = Int32.Parse(tbxRotateAngle.Text)
                 });
             }
+            
+            if (cbxCorner.Checked)
+            {
+                operations.Push(new CornerOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    TopPositionPercent = Int32.Parse(tbxTopCornerPosition.Text),
+                    SidePositionPercent = Int32.Parse(tbxCornerSidePosition.Text)
+                });
+            }
+
+            if (cbxNoise.Checked)
+            {
+                operations.Push(new NoiseOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    Intensity = Int32.Parse(tbxNoiseIntensity.Text)
+                });
+            }
 
             if (cbxBrightness.Checked)
             {
@@ -57,37 +78,6 @@ namespace QRTester
                     CheckStatus = checkStatus,
                     Image = image,
                     Intensity = Int32.Parse(tbxBlurIntensity.Text)
-                });
-            }
-
-            if (cbxNoise.Checked)
-            {
-                operations.Push(new NoiseOperation()
-                {
-                    CheckStatus = checkStatus,
-                    Image = image,
-                    Intensity = Int32.Parse(tbxNoiseIntensity.Text)
-                });
-            }
-
-            if (cbxCorner.Checked)
-            {
-                operations.Push(new CornerOperation()
-                {
-                    CheckStatus = checkStatus,
-                    Image = image,
-                    TopPositionPercent = Int32.Parse(tbxTopCornerPosition.Text),
-                    SidePositionPercent = Int32.Parse(tbxCornerSidePosition.Text)
-                });
-            }
-            if (cbxMarker.Checked)
-            {
-                operations.Push(new MarkerOperation()
-                {
-                    CheckStatus = checkStatus,
-                    Image = image,
-                    TopPositionPercent = Int32.Parse(tbxTopMarkerPosition.Text),
-                    BottomPositionPercent = Int32.Parse(tbxBottomMarkerPosition.Text)
                 });
             }
 

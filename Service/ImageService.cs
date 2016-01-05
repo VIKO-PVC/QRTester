@@ -362,7 +362,6 @@ namespace Service
 
 
             Bitmap clonedImage = newImage;
-            float gamma = 1.0f; // no change in gamma
 
             float adjustedBrightness = (float)brightness / 255.0f;
             // create matrix that will brighten and contrast the image
@@ -376,7 +375,6 @@ namespace Service
             var imageAttributes = new ImageAttributes();
             imageAttributes.ClearColorMatrix();
             imageAttributes.SetColorMatrix(new ColorMatrix(ptsArray), ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            imageAttributes.SetGamma(gamma, ColorAdjustType.Bitmap);
 
             // Copy back to the original image from the cloned image
             Graphics g = Graphics.FromImage(newImage);
@@ -511,8 +509,37 @@ namespace Service
                     });
                 }
             }
+            
+            for (int i = 1; i <= 1000; i += Settings.TestPacketSettings.NoiseIntensityStep)
+            {
+                PendingImageOperations.Push(new NoiseOperation()
+                {
+                    CheckStatus = CheckImageStatus.NotCheckYet,
+                    Image = Settings.CurrentImage,
+                    Intensity = i
+                });
+            }
 
-            //TODO: Add noise operations
+            for (int i = 1; i <= 100; i += Settings.TestPacketSettings.BlurIntensityStep)
+            {
+                PendingImageOperations.Push(new BlurOperation()
+                {
+                    CheckStatus = CheckImageStatus.NotCheckYet,
+                    Image = Settings.CurrentImage,
+                    Intensity = i
+                });
+            }
+
+            for (int i = -255; i <= 255; i += Settings.TestPacketSettings.BrightnessStep)
+            {
+                PendingImageOperations.Push(new BrightnessOperation()
+                {
+                    CheckStatus = CheckImageStatus.NotCheckYet,
+                    Image = Settings.CurrentImage,
+                    Intensity = i
+                });
+            }
+
         }
 
         public static void LogLastOperation()

@@ -31,7 +31,10 @@
                 CornerTopStep = 5,
                 CornerTopBoundary = 25,
                 CornerSideStep = 5,
-                CornerSideBoundary = 25
+                CornerSideBoundary = 25,
+                NoiseIntensityStep = 10,
+                BlurIntensityStep = 1,
+                BrightnessStep = 15
             };
         }
     }
@@ -47,6 +50,9 @@
         public int CornerTopBoundary { get; set; }
         public int CornerSideStep { get; set; }
         public int CornerSideBoundary { get; set; }
+        public int NoiseIntensityStep { get; set; }
+        public int BlurIntensityStep { get; set; }
+        public int BrightnessStep { get; set; }
     }
 }
 
