@@ -4,6 +4,7 @@
     {
         NotCheckYet,
         QrRecognitionSuccessful,
-        QrRecognitionFailed
+        QrRecognitionFailed,
+        WrongQrValueRead
     }
 }

@@ -29,6 +29,11 @@ namespace Model
                         statusString = "QR simbolis nuskaitytas sėkmingai";
                         break;
                     }
+                case CheckImageStatus.WrongQrValueRead:
+                    {
+                        statusString = "Nuskaitytas neteisinga QR simbolio reikšmė";
+                        break;
+                    }
                 default:
                     {
                         statusString = "Netikrinta";

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Model;
 using QRTester.Properties;
 using Service;
+using Image = Model.Image;
 using Settings = Model.Settings;
 
 namespace QRTester
@@ -155,6 +157,12 @@ namespace QRTester
                 string encodedValue;
                 lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage, out encodedValue);
                 lastExecutedOperation.Image.EncodedValue = encodedValue;
+                
+                if (lastExecutedOperation.CheckStatus == CheckImageStatus.QrRecognitionSuccessful &&
+                    encodedValue != ImageService.Settings.UploadedImage.EncodedValue)
+                {
+                    lastExecutedOperation.CheckStatus = CheckImageStatus.WrongQrValueRead;
+                }
             }
 
             ImageService.LogLastOperation();
