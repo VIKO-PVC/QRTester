@@ -39,6 +39,16 @@ namespace QRTester
                 });
             }
 
+            if (cbxNoise.Checked)
+            {
+                operations.Push(new NoiseOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    Intensity = Int32.Parse(tbxNoiseIntensity.Text)
+                });
+            }
+
             if (cbxCorner.Checked)
             {
                 operations.Push(new CornerOperation()
@@ -58,16 +68,6 @@ namespace QRTester
                     Image = image,
                     TopPositionPercent = Int32.Parse(tbxTopMarkerPosition.Text),
                     BottomPositionPercent = Int32.Parse(tbxBottomMarkerPosition.Text)
-                });
-            }
-
-            if (cbxNoise.Checked)
-            {
-                operations.Push(new NoiseOperation()
-                {
-                    CheckStatus = checkStatus,
-                    Image = image,
-                    Intensity = Int32.Parse(tbxNoiseIntensity.Text)
                 });
             }
 

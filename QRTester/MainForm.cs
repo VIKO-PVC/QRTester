@@ -54,33 +54,41 @@ namespace QRTester
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
                     string encodedValue;
 
-                    if (ImageService.Settings.EnableQrReader && ImageService.CheckImage(image, out encodedValue) == CheckImageStatus.QrRecognitionSuccessful)
+                    if (ImageService.Settings.EnableQrReader)
                     {
-                        image.EncodedValue = encodedValue;
-                        ImageService.Settings.UploadedImage = image;
-                        ImageService.Settings.CurrentImage = image;
-                        ImageService.ExecutedImageOperations.Clear();
-                        
-                        RefreshForm();
-                        ShowActionButtons();
-                        btnRevertSabotage.Show();
-
-                        ImageService.ActionLog.Add(new ActionLogEntry()
+                        if (ImageService.CheckImage(image, out encodedValue) == CheckImageStatus.QrRecognitionSuccessful)
                         {
-                            Id = Guid.NewGuid(),
-                            Description = "Sėkmingai įkeltas QR simbolis",
-                            Image = image
-                        });
+                            image.EncodedValue = encodedValue;
+                            UploadImage(image);
+
+                            ImageService.ActionLog.Add(new ActionLogEntry()
+                            {
+                                Id = Guid.NewGuid(),
+                                Description = "Sėkmingai įkeltas QR simbolis",
+                                Image = image
+                            });
+                        }
+                        else
+                        {
+                            ImageService.ActionLog.Add(new ActionLogEntry()
+                            {
+                                Id = Guid.NewGuid(),
+                                Description = "Įkeltas paveiksliukas yra ne QR simbolis.",
+                                Image = image
+                            });
+                        }
                     }
                     else
                     {
+                        UploadImage(image);
                         ImageService.ActionLog.Add(new ActionLogEntry()
                         {
                             Id = Guid.NewGuid(),
-                            Description = "Įkeltas paveiksliukas yra ne QR simbolis.",
+                            Description = "Sėkmingai įkeltas QR simbolis (Netikrinta)",
                             Image = image
                         });
                     }
+
                 }
                 catch (Exception exception)
                 {
@@ -116,7 +124,14 @@ namespace QRTester
                 ImageService.ExecuteTopmostImageOperation();
                 ProcessCurrentImage();
                 pgbImageOperations.Value++;
-                Thread.Sleep(6000);
+                if (ImageService.Settings.EnableQrReader)
+                {
+                    Thread.Sleep(6000);
+                }
+                else
+                {
+                    Thread.Sleep(200);
+                }
             }
 
             ImageService.ActionLog.Add(new ActionLogEntry()
@@ -155,14 +170,19 @@ namespace QRTester
             if (ImageService.Settings.EnableQrReader)
             {
                 string encodedValue;
-                lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage, out encodedValue);
+                lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage,
+                    out encodedValue);
                 lastExecutedOperation.Image.EncodedValue = encodedValue;
-                
+
                 if (lastExecutedOperation.CheckStatus == CheckImageStatus.QrRecognitionSuccessful &&
                     encodedValue != ImageService.Settings.UploadedImage.EncodedValue)
                 {
                     lastExecutedOperation.CheckStatus = CheckImageStatus.WrongQrValueRead;
                 }
+            }
+            else
+            {
+                lastExecutedOperation.CheckStatus = CheckImageStatus.QrRecognitionSuccessful;
             }
 
             ImageService.LogLastOperation();
@@ -207,6 +227,17 @@ namespace QRTester
         private void btnHelp_Click(object sender, EventArgs e)
         {
             helpForm.Initialize(Resources.MainFormHelp);
+        }
+
+        private void UploadImage(Image image)
+        {
+            ImageService.Settings.UploadedImage = image;
+            ImageService.Settings.CurrentImage = image;
+            ImageService.ExecutedImageOperations.Clear();
+
+            RefreshForm();
+            ShowActionButtons();
+            btnRevertSabotage.Show();
         }
     }
 }

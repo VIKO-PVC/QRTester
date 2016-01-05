@@ -358,6 +358,11 @@ namespace Service
             {
                 transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
             }
+            else if (operation is NoiseOperation)
+            {
+                var noiseOperation = (NoiseOperation)operation;
+                transformedImage = GenerateNoise(noiseOperation.Intensity, operation.Image);
+            }
             else if (operation is CornerOperation)
             {
                 var cornerOperation = (CornerOperation)operation;
@@ -368,11 +373,6 @@ namespace Service
             {
                 var markerOperation = (MarkerOperation)operation;
                 transformedImage = DrawMarkerLine(markerOperation.TopPositionPercent, markerOperation.BottomPositionPercent, Color.Black, operation.Image);
-            }
-            else if (operation is NoiseOperation)
-            {
-                var noiseOperation = (NoiseOperation)operation;
-                transformedImage = GenerateNoise(noiseOperation.Intensity, operation.Image);
             }
 
             return transformedImage;
