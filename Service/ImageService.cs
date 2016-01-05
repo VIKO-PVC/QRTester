@@ -30,7 +30,7 @@ namespace Service
             return image;
         }
 
-        public static CheckImageStatus CheckImage(Image image)
+        public static CheckImageStatus CheckImage(Image image, out string encodedValue)
         {
             var imageFormat = String.Empty;
 
@@ -57,13 +57,14 @@ namespace Service
                     Id = Guid.NewGuid(),
                     Description = "Blogas paveiksliuko formatas"
                 });
-
+                encodedValue = String.Empty;
+                
                 return CheckImageStatus.NotCheckYet;
             }
             
             var response = HttpUploadFile(image, "f", "image/" + imageFormat);
 
-            if (IsResponseValid(response))
+            if (IsResponseValid(response, out encodedValue))
             {
                 return CheckImageStatus.QrRecognitionSuccessful;
             }
@@ -122,8 +123,11 @@ namespace Service
             return response;
         }
 
-        public static bool IsResponseValid(HttpWebResponse response)
+        public static bool IsResponseValid(HttpWebResponse response, out string encodedValue)
         {
+            //TODO: remove
+            encodedValue = String.Empty;
+
             if (response == null)
             {
                 return false;
@@ -136,6 +140,9 @@ namespace Service
                 string responseHtml = streamReader.ReadToEnd();
                 if (responseHtml.Contains(Settings.SuccessHtmlFragment))
                 {
+                    var encodedValueStart = responseHtml.IndexOf(Settings.EncodedValueStartHtmlFragment) + Settings.EncodedValueStartHtmlFragment.Length;
+                    var encodedeValueEnd = responseHtml.IndexOf(Settings.EncodedValueEndHtmlFragment, encodedValueStart);
+                    encodedValue = responseHtml.Substring(encodedValueStart, encodedeValueEnd - encodedValueStart);
                     return true;
                 }
 
@@ -188,10 +195,10 @@ namespace Service
                 newImage = new Bitmap(memoryStream);
             }
 
-            return new Image()
-            {
-                Picture = newImage
-            };
+            var sabotagedImage = image.Copy();
+            sabotagedImage.Picture = newImage;
+
+            return sabotagedImage;
         }
 
         public static Image RotateImage(int angle, Image image)
@@ -245,10 +252,10 @@ namespace Service
                 newImage = new Bitmap(memoryStream);
             }
 
-            return new Image()
-            {
-                Picture = newImage
-            };
+            var sabotagedImage = image.Copy();
+            sabotagedImage.Picture = newImage;
+            
+            return sabotagedImage;
         }
 
         public static Image DrawMarkerLine(float topPositionPercentage, float bottomPositionPercentage, Color markerColor, Image image)
@@ -275,10 +282,10 @@ namespace Service
                 newImage = new Bitmap(memoryStream);
             }
 
-            return new Image()
-            {
-                Picture = newImage
-            };
+            var sabotagedImage = image.Copy();
+            sabotagedImage.Picture = newImage;
+
+            return sabotagedImage;
         }
 
         public static Image CutImageCorner(int topPositionPercentage, int sidePositionPercentage, Image image)
@@ -308,11 +315,11 @@ namespace Service
                 currentPoint.Y++;
                 currentPoint.X = 0;
             }
-            
-            return new Image()
-            {
-                Picture = bitmapWithBoundary
-            }; ;
+
+            var sabotagedImage = image.Copy();
+            sabotagedImage.Picture = bitmapWithBoundary;
+
+            return sabotagedImage;
         }
 
         public static void ExecuteTopmostImageOperation()
@@ -424,11 +431,14 @@ namespace Service
         public static void LogLastOperation()
         {
             var lastOperation = ExecutedImageOperations.Peek();
+            var image = Settings.CurrentImage.Copy();
+            image.EncodedValue = lastOperation.Image.EncodedValue;
+
             var logEntry = new ActionLogEntry()
             {
                 Id = Guid.NewGuid(),
                 Description = lastOperation.ToString(),
-                Image = Settings.CurrentImage.Copy()
+                Image = image
             };
 
             ActionLog.Add(logEntry);

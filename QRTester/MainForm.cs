@@ -50,9 +50,11 @@ namespace QRTester
                 try
                 {
                     image = ImageService.GetPicture(ofdUploadImage.OpenFile());
+                    string encodedValue;
 
-                    if (ImageService.Settings.EnableQrReader && ImageService.CheckImage(image) == CheckImageStatus.QrRecognitionSuccessful)
+                    if (ImageService.Settings.EnableQrReader && ImageService.CheckImage(image, out encodedValue) == CheckImageStatus.QrRecognitionSuccessful)
                     {
+                        image.EncodedValue = encodedValue;
                         ImageService.Settings.UploadedImage = image;
                         ImageService.Settings.CurrentImage = image;
                         ImageService.ExecutedImageOperations.Clear();
@@ -150,7 +152,9 @@ namespace QRTester
             var lastExecutedOperation = ImageService.ExecutedImageOperations.Peek();
             if (ImageService.Settings.EnableQrReader)
             {
-                lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage);
+                string encodedValue;
+                lastExecutedOperation.CheckStatus = ImageService.CheckImage(ImageService.Settings.CurrentImage, out encodedValue);
+                lastExecutedOperation.Image.EncodedValue = encodedValue;
             }
 
             ImageService.LogLastOperation();
@@ -189,7 +193,7 @@ namespace QRTester
         {
             var selectedItem = lsbActionLog.SelectedItem;
             var actionLogEntry = ImageService.ActionLog.Single(item => ((ActionLogEntry)selectedItem).Id == item.Id);
-            actionLogForm.Initialize(actionLogEntry.Image.Picture, actionLogEntry.Description);
+            actionLogForm.Initialize(actionLogEntry.Image, actionLogEntry.Description);
         }
 
         private void btnHelp_Click(object sender, EventArgs e)

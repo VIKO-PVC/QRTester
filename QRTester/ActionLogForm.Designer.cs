@@ -32,6 +32,7 @@
             this.pbcActionLogImage = new System.Windows.Forms.PictureBox();
             this.lblActionLogMessage = new System.Windows.Forms.Label();
             this.btnActionLogOk = new System.Windows.Forms.Button();
+            this.lblDecryptedValue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbcActionLogImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,11 +66,21 @@
             this.btnActionLogOk.UseVisualStyleBackColor = true;
             this.btnActionLogOk.Click += new System.EventHandler(this.btnActionLogOk_Click);
             // 
+            // lblDecryptedValue
+            // 
+            this.lblDecryptedValue.AutoSize = true;
+            this.lblDecryptedValue.Location = new System.Drawing.Point(277, 42);
+            this.lblDecryptedValue.Name = "lblDecryptedValue";
+            this.lblDecryptedValue.Size = new System.Drawing.Size(91, 17);
+            this.lblDecryptedValue.TabIndex = 3;
+            this.lblDecryptedValue.Text = "[Placeholder]";
+            // 
             // ActionLogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(941, 272);
+            this.Controls.Add(this.lblDecryptedValue);
             this.Controls.Add(this.btnActionLogOk);
             this.Controls.Add(this.lblActionLogMessage);
             this.Controls.Add(this.pbcActionLogImage);
@@ -86,5 +97,6 @@
         private System.Windows.Forms.PictureBox pbcActionLogImage;
         private System.Windows.Forms.Label lblActionLogMessage;
         private System.Windows.Forms.Button btnActionLogOk;
+        private System.Windows.Forms.Label lblDecryptedValue;
     }
 }

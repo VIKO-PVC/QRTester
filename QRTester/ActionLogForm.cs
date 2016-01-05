@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Model;
 
 namespace QRTester
 {
@@ -17,11 +11,12 @@ namespace QRTester
             InitializeComponent();
         }
 
-        public void Initialize(Image picture, string message)
+        public void Initialize(Image image, string message)
         {
-            if (picture != null)
+            if (image != null)
             {
-                pbcActionLogImage.Image = picture;
+                pbcActionLogImage.Image = image.Picture;
+                lblDecryptedValue.Text = image.EncodedValue;
             }
             else
             {
