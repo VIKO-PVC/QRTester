@@ -324,21 +324,25 @@ namespace Service
 
         private static Image Blur(int intensity, Image image)
         {
-            //TODO: adjust percentages
             var newImage = new Bitmap(image.Picture);
 
             for (int x = 0; x < newImage.Width; x++)
             {
                 for (int y = 0; y < newImage.Height; y++)
                 {
-                    var prevX = newImage.GetPixel(x - intensity < 0 ? 0 : x - intensity, y);
-                    var nextX = newImage.GetPixel(x + intensity >= newImage.Width ? newImage.Width - 1 : x + intensity, y);
-                    var prevY = newImage.GetPixel(x, y - intensity < 0 ? 0 : y - intensity);
-                    var nextY = newImage.GetPixel(x, y + intensity >= newImage.Height ? newImage.Height - 1 : y + intensity);
+                    var pixelOffset = intensity/ 10;
+                    var currentPixel = newImage.GetPixel(x, y);
+                    var prevX = newImage.GetPixel(x - pixelOffset < 0 ? 0 : x - pixelOffset, y);
+                    var nextX = newImage.GetPixel(x + pixelOffset >= newImage.Width ? newImage.Width - 1 : x + pixelOffset, y);
+                    var prevY = newImage.GetPixel(x, y - pixelOffset < 0 ? 0 : y - pixelOffset);
+                    var nextY = newImage.GetPixel(x, y + pixelOffset >= newImage.Height ? newImage.Height - 1 : y + pixelOffset);
 
                     int avgR = (int) ((prevX.R + prevY.R + nextX.R + nextY.R)/4);
+                    avgR += (avgR - currentPixel.R) / (intensity == 0 ? 1 : intensity);
                     int avgG = (int) ((prevX.G + prevY.G + nextX.G + nextY.G)/4);
+                    avgG += (avgG - currentPixel.G) / (intensity == 0 ? 1 : intensity);
                     int avgB = (int) ((prevX.B + prevY.B + nextX.B + nextY.B)/4);
+                    avgB += (avgB - currentPixel.B) / (intensity == 0 ? 1 : intensity);
 
                     newImage.SetPixel(x, y, Color.FromArgb(avgR, avgG, avgB));
                 }
@@ -357,20 +361,17 @@ namespace Service
         }
         private static Image AdjustBrightness(int brightness, Image image)
         {
-            //TODO: adjust percentages
             var newImage = new Bitmap(image.Picture);
-
-
             Bitmap clonedImage = newImage;
 
             float adjustedBrightness = (float)brightness / 255.0f;
             // create matrix that will brighten and contrast the image
             float[][] ptsArray ={
-        new float[] {1, 0, 0, 0, 0}, // scale red
-        new float[] {0, 1, 0, 0, 0}, // scale green
-        new float[] {0, 0, 1, 0, 0}, // scale blue
-        new float[] {0, 0, 0, 1, 0},
-        new float[] {adjustedBrightness, adjustedBrightness, adjustedBrightness, 1, 1}};
+                new float[] {1, 0, 0, 0, 0}, // scale red
+                new float[] {0, 1, 0, 0, 0}, // scale green
+                new float[] {0, 0, 1, 0, 0}, // scale blue
+                new float[] {0, 0, 0, 1, 0},
+                new float[] {adjustedBrightness, adjustedBrightness, adjustedBrightness, 1, 1}};
 
             var imageAttributes = new ImageAttributes();
             imageAttributes.ClearColorMatrix();
