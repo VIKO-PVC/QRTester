@@ -55,6 +55,11 @@
             this.cbxBlur = new System.Windows.Forms.CheckBox();
             this.tbxBlurIntensity = new System.Windows.Forms.TextBox();
             this.lblBlurIntensityPercent = new System.Windows.Forms.Label();
+            this.cbxBrightness = new System.Windows.Forms.CheckBox();
+            this.lblBrightnessDarker = new System.Windows.Forms.Label();
+            this.lblBrightnessBrighter = new System.Windows.Forms.Label();
+            this.trbBrightness = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).BeginInit();
             this.SuspendLayout();
             // 
             // cbxRotate
@@ -113,7 +118,7 @@
             // 
             // btnSabotageOk
             // 
-            this.btnSabotageOk.Location = new System.Drawing.Point(12, 277);
+            this.btnSabotageOk.Location = new System.Drawing.Point(12, 190);
             this.btnSabotageOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageOk.Name = "btnSabotageOk";
             this.btnSabotageOk.Size = new System.Drawing.Size(75, 23);
@@ -124,7 +129,7 @@
             // 
             // btnSabotageCancel
             // 
-            this.btnSabotageCancel.Location = new System.Drawing.Point(325, 277);
+            this.btnSabotageCancel.Location = new System.Drawing.Point(325, 190);
             this.btnSabotageCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageCancel.Name = "btnSabotageCancel";
             this.btnSabotageCancel.Size = new System.Drawing.Size(75, 23);
@@ -243,7 +248,7 @@
             // 
             // btnSabotageHelp
             // 
-            this.btnSabotageHelp.Location = new System.Drawing.Point(93, 277);
+            this.btnSabotageHelp.Location = new System.Drawing.Point(93, 190);
             this.btnSabotageHelp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageHelp.Name = "btnSabotageHelp";
             this.btnSabotageHelp.Size = new System.Drawing.Size(75, 23);
@@ -308,11 +313,56 @@
             this.lblBlurIntensityPercent.TabIndex = 26;
             this.lblBlurIntensityPercent.Text = "%";
             // 
+            // cbxBrightness
+            // 
+            this.cbxBrightness.AutoSize = true;
+            this.cbxBrightness.Location = new System.Drawing.Point(12, 151);
+            this.cbxBrightness.Name = "cbxBrightness";
+            this.cbxBrightness.Size = new System.Drawing.Size(105, 21);
+            this.cbxBrightness.TabIndex = 27;
+            this.cbxBrightness.Text = "Apšvietimas";
+            this.cbxBrightness.UseVisualStyleBackColor = true;
+            // 
+            // lblBrightnessDarker
+            // 
+            this.lblBrightnessDarker.AutoSize = true;
+            this.lblBrightnessDarker.Location = new System.Drawing.Point(114, 152);
+            this.lblBrightnessDarker.Name = "lblBrightnessDarker";
+            this.lblBrightnessDarker.Size = new System.Drawing.Size(62, 17);
+            this.lblBrightnessDarker.TabIndex = 28;
+            this.lblBrightnessDarker.Text = "Tamsiau";
+            // 
+            // lblBrightnessBrighter
+            // 
+            this.lblBrightnessBrighter.AutoSize = true;
+            this.lblBrightnessBrighter.Location = new System.Drawing.Point(322, 152);
+            this.lblBrightnessBrighter.Name = "lblBrightnessBrighter";
+            this.lblBrightnessBrighter.Size = new System.Drawing.Size(61, 17);
+            this.lblBrightnessBrighter.TabIndex = 29;
+            this.lblBrightnessBrighter.Text = "Šviesiau";
+            // 
+            // trbBrightness
+            // 
+            this.trbBrightness.LargeChange = 90;
+            this.trbBrightness.Location = new System.Drawing.Point(181, 154);
+            this.trbBrightness.Maximum = 255;
+            this.trbBrightness.Minimum = -255;
+            this.trbBrightness.Name = "trbBrightness";
+            this.trbBrightness.Size = new System.Drawing.Size(135, 56);
+            this.trbBrightness.SmallChange = 30;
+            this.trbBrightness.TabIndex = 30;
+            this.trbBrightness.TickFrequency = 30;
+            this.trbBrightness.Scroll += new System.EventHandler(this.trbBrightness_Scroll);
+            // 
             // TestMethodsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 311);
+            this.ClientSize = new System.Drawing.Size(405, 224);
+            this.Controls.Add(this.trbBrightness);
+            this.Controls.Add(this.lblBrightnessBrighter);
+            this.Controls.Add(this.lblBrightnessDarker);
+            this.Controls.Add(this.cbxBrightness);
             this.Controls.Add(this.lblBlurIntensityPercent);
             this.Controls.Add(this.tbxBlurIntensity);
             this.Controls.Add(this.cbxBlur);
@@ -343,6 +393,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "TestMethodsForm";
             this.Text = "Iškraipymai";
+            ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -376,5 +427,9 @@
         private System.Windows.Forms.CheckBox cbxBlur;
         private System.Windows.Forms.TextBox tbxBlurIntensity;
         private System.Windows.Forms.Label lblBlurIntensityPercent;
+        private System.Windows.Forms.CheckBox cbxBrightness;
+        private System.Windows.Forms.Label lblBrightnessDarker;
+        private System.Windows.Forms.Label lblBrightnessBrighter;
+        private System.Windows.Forms.TrackBar trbBrightness;
     }
 }

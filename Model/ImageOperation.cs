@@ -99,4 +99,14 @@ namespace Model
                    Intensity, GetStatusString());
         }
     }
+    public class BrightnessOperation : ImageOperation
+    {
+        public int Intensity { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("Apšvietimo operacija. {2}: {0}% Rezultatas: {1}",
+                   Math.Round(Intensity < 0 ? Intensity * -1 : Intensity / 2.55), GetStatusString(), Intensity > 0 ? "Šviesinimas" : "Tamsinimas");
+        }
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Model;
 using QRTester.Properties;
@@ -36,6 +37,16 @@ namespace QRTester
                     CheckStatus = checkStatus,
                     Image = image,
                     RotateAngle = Int32.Parse(tbxRotateAngle.Text)
+                });
+            }
+
+            if (cbxBrightness.Checked)
+            {
+                operations.Push(new BrightnessOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    Intensity = trbBrightness.Value
                 });
             }
 
@@ -91,21 +102,28 @@ namespace QRTester
                 });
             }
 
-            var operation = operations.Pop();
-            var currentOperation = operation;
-
-            while (operations.Count > 0)
+            if (operations.Any())
             {
-                currentOperation.InnerOperation = operations.Pop();
-                currentOperation = operation.InnerOperation;
+                var operation = operations.Pop();
+                var currentOperation = operation;
+
+                while (operations.Count > 0)
+                {
+                    currentOperation.InnerOperation = operations.Pop();
+                    currentOperation = operation.InnerOperation;
+                }
+
+                ImageService.PendingImageOperations.Push(operation);
+
+                Close();
+
+                ImageService.ExecuteTopmostImageOperation();
+                RefreshMainFormHandler();
             }
-
-            ImageService.PendingImageOperations.Push(operation);
-
-            Close();
-
-            ImageService.ExecuteTopmostImageOperation();
-            RefreshMainFormHandler();
+            else
+            {
+                MessageBox.Show("Pasirinkite bent vieną operaciją!");
+            }
         }
 
         private void btnSabotageCancel_Click(object sender, EventArgs e)
@@ -309,6 +327,11 @@ namespace QRTester
             {
                 tbxBlurIntensity.Text = String.IsNullOrEmpty(tbxBlurIntensity.Text) ? 0.ToString() : tbxBlurIntensity.Text;
             }
+        }
+
+        private void trbBrightness_Scroll(object sender, EventArgs e)
+        {
+            cbxBrightness.Checked = true;
         }
     }
 }

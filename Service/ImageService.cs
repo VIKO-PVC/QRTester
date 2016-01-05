@@ -359,7 +359,33 @@ namespace Service
         {
             //TODO: adjust percentages
             var newImage = new Bitmap(image.Picture);
-            
+
+
+            Bitmap clonedImage = newImage;
+            float gamma = 1.0f; // no change in gamma
+
+            float adjustedBrightness = (float)brightness / 255.0f;
+            // create matrix that will brighten and contrast the image
+            float[][] ptsArray ={
+        new float[] {1, 0, 0, 0, 0}, // scale red
+        new float[] {0, 1, 0, 0, 0}, // scale green
+        new float[] {0, 0, 1, 0, 0}, // scale blue
+        new float[] {0, 0, 0, 1, 0},
+        new float[] {adjustedBrightness, adjustedBrightness, adjustedBrightness, 1, 1}};
+
+            var imageAttributes = new ImageAttributes();
+            imageAttributes.ClearColorMatrix();
+            imageAttributes.SetColorMatrix(new ColorMatrix(ptsArray), ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+            imageAttributes.SetGamma(gamma, ColorAdjustType.Bitmap);
+
+            // Copy back to the original image from the cloned image
+            Graphics g = Graphics.FromImage(newImage);
+            g.DrawImage(clonedImage, new Rectangle(0, 0, clonedImage.Width, clonedImage.Height)
+                , 0, 0, clonedImage.Width, clonedImage.Height,
+                GraphicsUnit.Pixel, imageAttributes);
+            g.Flush();
+
+
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 newImage.Save(memoryStream, ImageFormat.Png);
@@ -406,7 +432,13 @@ namespace Service
 
             if (operation is RotateOperation)
             {
+                transformedImage = AdjustBrightness(-300, operation.Image);
                 transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
+            }
+            else if (operation is BrightnessOperation)
+            {
+                var brightnessOperation = (BrightnessOperation)operation;
+                transformedImage = AdjustBrightness(brightnessOperation.Intensity, operation.Image);
             }
             else if (operation is BlurOperation)
             {
