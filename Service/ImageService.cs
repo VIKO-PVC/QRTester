@@ -322,6 +322,56 @@ namespace Service
             return sabotagedImage;
         }
 
+        private static Image Blur(int intensity, Image image)
+        {
+            //TODO: adjust percentages
+            var newImage = new Bitmap(image.Picture);
+
+            for (int x = 0; x < newImage.Width; x++)
+            {
+                for (int y = 0; y < newImage.Height; y++)
+                {
+                    var prevX = newImage.GetPixel(x - intensity < 0 ? 0 : x - intensity, y);
+                    var nextX = newImage.GetPixel(x + intensity >= newImage.Width ? newImage.Width - 1 : x + intensity, y);
+                    var prevY = newImage.GetPixel(x, y - intensity < 0 ? 0 : y - intensity);
+                    var nextY = newImage.GetPixel(x, y + intensity >= newImage.Height ? newImage.Height - 1 : y + intensity);
+
+                    int avgR = (int) ((prevX.R + prevY.R + nextX.R + nextY.R)/4);
+                    int avgG = (int) ((prevX.G + prevY.G + nextX.G + nextY.G)/4);
+                    int avgB = (int) ((prevX.B + prevY.B + nextX.B + nextY.B)/4);
+
+                    newImage.SetPixel(x, y, Color.FromArgb(avgR, avgG, avgB));
+                }
+            }
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                newImage.Save(memoryStream, ImageFormat.Png);
+                newImage = new Bitmap(memoryStream);
+            }
+
+            var sabotagedImage = image.Copy();
+            sabotagedImage.Picture = newImage;
+
+            return sabotagedImage;
+        }
+        private static Image AdjustBrightness(int brightness, Image image)
+        {
+            //TODO: adjust percentages
+            var newImage = new Bitmap(image.Picture);
+            
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                newImage.Save(memoryStream, ImageFormat.Png);
+                newImage = new Bitmap(memoryStream);
+            }
+
+            var sabotagedImage = image.Copy();
+            sabotagedImage.Picture = newImage;
+
+            return sabotagedImage;
+        }
+
         public static void ExecuteTopmostImageOperation()
         {
             var initialOperation = PendingImageOperations.Pop();
@@ -357,6 +407,11 @@ namespace Service
             if (operation is RotateOperation)
             {
                 transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
+            }
+            else if (operation is BlurOperation)
+            {
+                var blurOperation = (BlurOperation)operation;
+                transformedImage = Blur(blurOperation.Intensity, operation.Image);
             }
             else if (operation is NoiseOperation)
             {

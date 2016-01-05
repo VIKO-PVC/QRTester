@@ -39,6 +39,16 @@ namespace QRTester
                 });
             }
 
+            if (cbxBlur.Checked)
+            {
+                operations.Push(new BlurOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    Intensity = Int32.Parse(tbxBlurIntensity.Text)
+                });
+            }
+
             if (cbxNoise.Checked)
             {
                 operations.Push(new NoiseOperation()
@@ -57,6 +67,16 @@ namespace QRTester
                     Image = image,
                     TopPositionPercent = Int32.Parse(tbxTopCornerPosition.Text),
                     SidePositionPercent = Int32.Parse(tbxCornerSidePosition.Text)
+                });
+            }
+            if (cbxMarker.Checked)
+            {
+                operations.Push(new MarkerOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    TopPositionPercent = Int32.Parse(tbxTopMarkerPosition.Text),
+                    BottomPositionPercent = Int32.Parse(tbxBottomMarkerPosition.Text)
                 });
             }
 
@@ -225,6 +245,25 @@ namespace QRTester
             }
         }
 
+        private void tbxBlurIntensity_TextChanged(object sender, EventArgs e)
+        {
+            int parsedNumber;
+            if (!String.IsNullOrEmpty(tbxBlurIntensity.Text) && (!Int32.TryParse(tbxBlurIntensity.Text, out parsedNumber) || parsedNumber > 1000 || parsedNumber < 0))
+            {
+                tbxBlurIntensity.Text = tbxBlurIntensity.Tag.ToString();
+                if (String.IsNullOrEmpty(tbxBlurIntensity.Text))
+                {
+                    cbxBlur.Checked = false;
+                }
+            }
+            else
+            {
+                tbxBlurIntensity.Tag = tbxBlurIntensity.Text;
+                tbxBlurIntensity.SelectionStart = tbxBlurIntensity.Text.Length;
+                cbxBlur.Checked = true;
+            }
+        }
+
         private void btnSabotageHelp_Click(object sender, EventArgs e)
         {
             helpForm.Initialize(Resources.SabotageFormHelp);
@@ -264,5 +303,12 @@ namespace QRTester
             }
         }
 
+        private void cbxBlur_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxBlur.Checked)
+            {
+                tbxBlurIntensity.Text = String.IsNullOrEmpty(tbxBlurIntensity.Text) ? 0.ToString() : tbxBlurIntensity.Text;
+            }
+        }
     }
 }

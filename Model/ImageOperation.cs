@@ -89,4 +89,14 @@ namespace Model
                    Intensity, GetStatusString());
         }
     }
+    public class BlurOperation : ImageOperation
+    {
+        public int Intensity { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("Išblukimo operacija. Intensyvumas: {0}% Rezultatas: {1}",
+                   Intensity, GetStatusString());
+        }
+    }
 }

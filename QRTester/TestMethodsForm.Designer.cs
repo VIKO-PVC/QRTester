@@ -52,6 +52,9 @@
             this.cbxNoise = new System.Windows.Forms.CheckBox();
             this.lblNoiseIntensityPercent = new System.Windows.Forms.Label();
             this.tbxNoiseIntensity = new System.Windows.Forms.TextBox();
+            this.cbxBlur = new System.Windows.Forms.CheckBox();
+            this.tbxBlurIntensity = new System.Windows.Forms.TextBox();
+            this.lblBlurIntensityPercent = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbxRotate
@@ -254,9 +257,9 @@
             this.cbxNoise.AutoSize = true;
             this.cbxNoise.Location = new System.Drawing.Point(12, 96);
             this.cbxNoise.Name = "cbxNoise";
-            this.cbxNoise.Size = new System.Drawing.Size(116, 21);
+            this.cbxNoise.Size = new System.Drawing.Size(95, 21);
             this.cbxNoise.TabIndex = 20;
-            this.cbxNoise.Text = "Intensyvumas";
+            this.cbxNoise.Text = "Triukšmas";
             this.cbxNoise.UseVisualStyleBackColor = true;
             this.cbxNoise.CheckedChanged += new System.EventHandler(this.cbxNoise_CheckedChanged);
             // 
@@ -277,11 +280,42 @@
             this.tbxNoiseIntensity.TabIndex = 22;
             this.tbxNoiseIntensity.TextChanged += new System.EventHandler(this.tbxNoiseIntensity_TextChanged);
             // 
+            // cbxBlur
+            // 
+            this.cbxBlur.AutoSize = true;
+            this.cbxBlur.Location = new System.Drawing.Point(12, 124);
+            this.cbxBlur.Name = "cbxBlur";
+            this.cbxBlur.Size = new System.Drawing.Size(95, 21);
+            this.cbxBlur.TabIndex = 24;
+            this.cbxBlur.Text = "Išblukimas";
+            this.cbxBlur.UseVisualStyleBackColor = true;
+            this.cbxBlur.CheckedChanged += new System.EventHandler(this.cbxBlur_CheckedChanged);
+            // 
+            // tbxBlurIntensity
+            // 
+            this.tbxBlurIntensity.Location = new System.Drawing.Point(171, 124);
+            this.tbxBlurIntensity.Name = "tbxBlurIntensity";
+            this.tbxBlurIntensity.Size = new System.Drawing.Size(57, 22);
+            this.tbxBlurIntensity.TabIndex = 25;
+            this.tbxBlurIntensity.TextChanged += new System.EventHandler(this.tbxBlurIntensity_TextChanged);
+            // 
+            // lblBlurIntensityPercent
+            // 
+            this.lblBlurIntensityPercent.AutoSize = true;
+            this.lblBlurIntensityPercent.Location = new System.Drawing.Point(238, 128);
+            this.lblBlurIntensityPercent.Name = "lblBlurIntensityPercent";
+            this.lblBlurIntensityPercent.Size = new System.Drawing.Size(20, 17);
+            this.lblBlurIntensityPercent.TabIndex = 26;
+            this.lblBlurIntensityPercent.Text = "%";
+            // 
             // TestMethodsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(405, 311);
+            this.Controls.Add(this.lblBlurIntensityPercent);
+            this.Controls.Add(this.tbxBlurIntensity);
+            this.Controls.Add(this.cbxBlur);
             this.Controls.Add(this.lblNoiseIntensityPercent);
             this.Controls.Add(this.tbxNoiseIntensity);
             this.Controls.Add(this.cbxNoise);
@@ -339,5 +373,8 @@
         private System.Windows.Forms.CheckBox cbxNoise;
         private System.Windows.Forms.Label lblNoiseIntensityPercent;
         private System.Windows.Forms.TextBox tbxNoiseIntensity;
+        private System.Windows.Forms.CheckBox cbxBlur;
+        private System.Windows.Forms.TextBox tbxBlurIntensity;
+        private System.Windows.Forms.Label lblBlurIntensityPercent;
     }
 }
