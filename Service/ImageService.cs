@@ -38,6 +38,18 @@ namespace Service
             {
                 imageFormat = "png";
             }
+            else if (image.Picture.RawFormat.Equals(ImageFormat.Jpeg))
+            {
+                var picture = new Bitmap(image.Picture, image.Picture.Width, image.Picture.Height);
+                using (var memoryStream = new MemoryStream())
+                {
+                    picture.Save(memoryStream, ImageFormat.Png);
+                    picture = new Bitmap(memoryStream);
+                    image.Picture = picture;
+                }
+                
+                imageFormat = "png";
+            }
             else
             {
                 ActionLog.Add(new ActionLogEntry()
@@ -138,6 +150,35 @@ namespace Service
             return false;
         }
 
+        public static Image GenerateNoise(int percentage, Image image)
+        {
+            var bitmap = image.Picture;
+            Random r = new Random();
+            var totalcount = 0;
+            var hitCount = 0;
+
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    totalcount++;
+                    int num = r.Next(0, 256);
+                    var chance = r.Next(1, 100);
+
+                    if (chance <= percentage)
+                    {
+                        hitCount++;
+                        ((Bitmap)bitmap).SetPixel(x, y, Color.FromArgb(255, num, num, num));
+                    }
+                }
+            }
+
+            return new Image()
+            {
+                Picture = bitmap
+            };
+        }
+
         public static Image RotateImage(int angle, Image image)
         {
             var bitmap = image.Picture;
@@ -153,7 +194,7 @@ namespace Service
             var newImgHeight = sin * bitmap.Width + cos * bitmap.Height;
             var originX = 0f;
             var originY = 0f;
-            
+
             if (angle > 0)
             {
                 if (angle <= 90)
@@ -182,7 +223,7 @@ namespace Service
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
             graphics.DrawImageUnscaled(bitmap, 0, 0); // draw the image at 0, 0
             graphics.Dispose();
-            
+
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 newImage.Save(memoryStream, ImageFormat.Png);
@@ -293,7 +334,8 @@ namespace Service
 
             if (operation is RotateOperation)
             {
-                transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
+                transformedImage = GenerateNoise(1, operation.Image);
+                //transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
             }
             else if (operation is CornerOperation)
             {

@@ -54,7 +54,8 @@
             // cbxRotate
             // 
             this.cbxRotate.AutoSize = true;
-            this.cbxRotate.Location = new System.Drawing.Point(13, 13);
+            this.cbxRotate.Location = new System.Drawing.Point(13, 14);
+            this.cbxRotate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbxRotate.Name = "cbxRotate";
             this.cbxRotate.Size = new System.Drawing.Size(98, 21);
             this.cbxRotate.TabIndex = 0;
@@ -64,7 +65,8 @@
             // 
             // tbxRotateAngle
             // 
-            this.tbxRotateAngle.Location = new System.Drawing.Point(118, 13);
+            this.tbxRotateAngle.Location = new System.Drawing.Point(117, 14);
+            this.tbxRotateAngle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbxRotateAngle.Name = "tbxRotateAngle";
             this.tbxRotateAngle.Size = new System.Drawing.Size(56, 22);
             this.tbxRotateAngle.TabIndex = 1;
@@ -83,6 +85,7 @@
             // 
             this.cbxMarker.AutoSize = true;
             this.cbxMarker.Location = new System.Drawing.Point(13, 41);
+            this.cbxMarker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbxMarker.Name = "cbxMarker";
             this.cbxMarker.Size = new System.Drawing.Size(84, 21);
             this.cbxMarker.TabIndex = 3;
@@ -94,6 +97,7 @@
             // 
             this.cbxCorner.AutoSize = true;
             this.cbxCorner.Location = new System.Drawing.Point(13, 69);
+            this.cbxCorner.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbxCorner.Name = "cbxCorner";
             this.cbxCorner.Size = new System.Drawing.Size(81, 21);
             this.cbxCorner.TabIndex = 4;
@@ -104,6 +108,7 @@
             // btnSabotageOk
             // 
             this.btnSabotageOk.Location = new System.Drawing.Point(12, 111);
+            this.btnSabotageOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageOk.Name = "btnSabotageOk";
             this.btnSabotageOk.Size = new System.Drawing.Size(75, 23);
             this.btnSabotageOk.TabIndex = 5;
@@ -114,6 +119,7 @@
             // btnSabotageCancel
             // 
             this.btnSabotageCancel.Location = new System.Drawing.Point(325, 111);
+            this.btnSabotageCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageCancel.Name = "btnSabotageCancel";
             this.btnSabotageCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSabotageCancel.TabIndex = 6;
@@ -124,6 +130,7 @@
             // tbxTopMarkerPosition
             // 
             this.tbxTopMarkerPosition.Location = new System.Drawing.Point(171, 42);
+            this.tbxTopMarkerPosition.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbxTopMarkerPosition.Name = "tbxTopMarkerPosition";
             this.tbxTopMarkerPosition.Size = new System.Drawing.Size(56, 22);
             this.tbxTopMarkerPosition.TabIndex = 7;
@@ -132,6 +139,7 @@
             // tbxBottomMarkerPosition
             // 
             this.tbxBottomMarkerPosition.Location = new System.Drawing.Point(317, 42);
+            this.tbxBottomMarkerPosition.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbxBottomMarkerPosition.Name = "tbxBottomMarkerPosition";
             this.tbxBottomMarkerPosition.Size = new System.Drawing.Size(56, 22);
             this.tbxBottomMarkerPosition.TabIndex = 8;
@@ -140,7 +148,7 @@
             // lblTopMarkerPosition
             // 
             this.lblTopMarkerPosition.AutoSize = true;
-            this.lblTopMarkerPosition.Location = new System.Drawing.Point(118, 46);
+            this.lblTopMarkerPosition.Location = new System.Drawing.Point(117, 46);
             this.lblTopMarkerPosition.Name = "lblTopMarkerPosition";
             this.lblTopMarkerPosition.Size = new System.Drawing.Size(47, 17);
             this.lblTopMarkerPosition.TabIndex = 9;
@@ -149,7 +157,7 @@
             // lblTopMarkerPositionPercent
             // 
             this.lblTopMarkerPositionPercent.AutoSize = true;
-            this.lblTopMarkerPositionPercent.Location = new System.Drawing.Point(234, 46);
+            this.lblTopMarkerPositionPercent.Location = new System.Drawing.Point(235, 46);
             this.lblTopMarkerPositionPercent.Name = "lblTopMarkerPositionPercent";
             this.lblTopMarkerPositionPercent.Size = new System.Drawing.Size(20, 17);
             this.lblTopMarkerPositionPercent.TabIndex = 10;
@@ -158,7 +166,7 @@
             // lblBottomMarkerPosition
             // 
             this.lblBottomMarkerPosition.AutoSize = true;
-            this.lblBottomMarkerPosition.Location = new System.Drawing.Point(260, 45);
+            this.lblBottomMarkerPosition.Location = new System.Drawing.Point(260, 46);
             this.lblBottomMarkerPosition.Name = "lblBottomMarkerPosition";
             this.lblBottomMarkerPosition.Size = new System.Drawing.Size(51, 17);
             this.lblBottomMarkerPosition.TabIndex = 11;
@@ -176,7 +184,7 @@
             // lblTopCornerPosition
             // 
             this.lblTopCornerPosition.AutoSize = true;
-            this.lblTopCornerPosition.Location = new System.Drawing.Point(118, 69);
+            this.lblTopCornerPosition.Location = new System.Drawing.Point(117, 69);
             this.lblTopCornerPosition.Name = "lblTopCornerPosition";
             this.lblTopCornerPosition.Size = new System.Drawing.Size(47, 17);
             this.lblTopCornerPosition.TabIndex = 13;
@@ -185,6 +193,7 @@
             // tbxTopCornerPosition
             // 
             this.tbxTopCornerPosition.Location = new System.Drawing.Point(172, 69);
+            this.tbxTopCornerPosition.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbxTopCornerPosition.Name = "tbxTopCornerPosition";
             this.tbxTopCornerPosition.Size = new System.Drawing.Size(55, 22);
             this.tbxTopCornerPosition.TabIndex = 14;
@@ -193,7 +202,7 @@
             // lblTopCornerPercentage
             // 
             this.lblTopCornerPercentage.AutoSize = true;
-            this.lblTopCornerPercentage.Location = new System.Drawing.Point(234, 72);
+            this.lblTopCornerPercentage.Location = new System.Drawing.Point(235, 71);
             this.lblTopCornerPercentage.Name = "lblTopCornerPercentage";
             this.lblTopCornerPercentage.Size = new System.Drawing.Size(20, 17);
             this.lblTopCornerPercentage.TabIndex = 15;
@@ -211,6 +220,7 @@
             // tbxCornerSidePosition
             // 
             this.tbxCornerSidePosition.Location = new System.Drawing.Point(317, 69);
+            this.tbxCornerSidePosition.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbxCornerSidePosition.Name = "tbxCornerSidePosition";
             this.tbxCornerSidePosition.Size = new System.Drawing.Size(56, 22);
             this.tbxCornerSidePosition.TabIndex = 17;
@@ -219,7 +229,7 @@
             // lblCornerSidePositionPercentage
             // 
             this.lblCornerSidePositionPercentage.AutoSize = true;
-            this.lblCornerSidePositionPercentage.Location = new System.Drawing.Point(380, 72);
+            this.lblCornerSidePositionPercentage.Location = new System.Drawing.Point(380, 71);
             this.lblCornerSidePositionPercentage.Name = "lblCornerSidePositionPercentage";
             this.lblCornerSidePositionPercentage.Size = new System.Drawing.Size(20, 17);
             this.lblCornerSidePositionPercentage.TabIndex = 18;
@@ -228,6 +238,7 @@
             // btnSabotageHelp
             // 
             this.btnSabotageHelp.Location = new System.Drawing.Point(93, 111);
+            this.btnSabotageHelp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageHelp.Name = "btnSabotageHelp";
             this.btnSabotageHelp.Size = new System.Drawing.Size(75, 23);
             this.btnSabotageHelp.TabIndex = 19;
@@ -239,7 +250,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 145);
+            this.ClientSize = new System.Drawing.Size(405, 145);
             this.Controls.Add(this.btnSabotageHelp);
             this.Controls.Add(this.lblCornerSidePositionPercentage);
             this.Controls.Add(this.tbxCornerSidePosition);
@@ -261,6 +272,7 @@
             this.Controls.Add(this.tbxRotateAngle);
             this.Controls.Add(this.cbxRotate);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "TestMethodsForm";
             this.Text = "Iškraipymai";
             this.ResumeLayout(false);

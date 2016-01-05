@@ -27,7 +27,7 @@ namespace QRTester
 
             InitializeComponent();
 
-            ofdUploadImage.Filter = "Portable Network Graphics (*.png)|*.png";
+            ofdUploadImage.Filter = "Paveiksliukai (*.png, *.jpg)|*.png;*.jpg";
         }
 
         private void MainForm_Load(object sender, EventArgs e)
