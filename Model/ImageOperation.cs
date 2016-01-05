@@ -74,4 +74,14 @@ namespace Model
                    TopPositionPercent, BottomPositionPercent, GetStatusString());
         }
     }
+    public class NoiseOperation : ImageOperation
+    {
+        public int Intensity { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("Gauso triukšmo operacija. Intensyvumas: {0}‰ Rezultatas: {1}",
+                   Intensity, GetStatusString());
+        }
+    }
 }

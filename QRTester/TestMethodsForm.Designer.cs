@@ -49,6 +49,9 @@
             this.tbxCornerSidePosition = new System.Windows.Forms.TextBox();
             this.lblCornerSidePositionPercentage = new System.Windows.Forms.Label();
             this.btnSabotageHelp = new System.Windows.Forms.Button();
+            this.cbxNoise = new System.Windows.Forms.CheckBox();
+            this.lblNoiseIntensityPercent = new System.Windows.Forms.Label();
+            this.tbxNoiseIntensity = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cbxRotate
@@ -77,9 +80,9 @@
             this.lblRotateAnglePercent.AutoSize = true;
             this.lblRotateAnglePercent.Location = new System.Drawing.Point(181, 17);
             this.lblRotateAnglePercent.Name = "lblRotateAnglePercent";
-            this.lblRotateAnglePercent.Size = new System.Drawing.Size(20, 17);
+            this.lblRotateAnglePercent.Size = new System.Drawing.Size(14, 17);
             this.lblRotateAnglePercent.TabIndex = 2;
-            this.lblRotateAnglePercent.Text = "%";
+            this.lblRotateAnglePercent.Text = "°";
             // 
             // cbxMarker
             // 
@@ -107,7 +110,7 @@
             // 
             // btnSabotageOk
             // 
-            this.btnSabotageOk.Location = new System.Drawing.Point(12, 111);
+            this.btnSabotageOk.Location = new System.Drawing.Point(12, 277);
             this.btnSabotageOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageOk.Name = "btnSabotageOk";
             this.btnSabotageOk.Size = new System.Drawing.Size(75, 23);
@@ -118,7 +121,7 @@
             // 
             // btnSabotageCancel
             // 
-            this.btnSabotageCancel.Location = new System.Drawing.Point(325, 111);
+            this.btnSabotageCancel.Location = new System.Drawing.Point(325, 277);
             this.btnSabotageCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageCancel.Name = "btnSabotageCancel";
             this.btnSabotageCancel.Size = new System.Drawing.Size(75, 23);
@@ -237,7 +240,7 @@
             // 
             // btnSabotageHelp
             // 
-            this.btnSabotageHelp.Location = new System.Drawing.Point(93, 111);
+            this.btnSabotageHelp.Location = new System.Drawing.Point(93, 277);
             this.btnSabotageHelp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSabotageHelp.Name = "btnSabotageHelp";
             this.btnSabotageHelp.Size = new System.Drawing.Size(75, 23);
@@ -246,11 +249,42 @@
             this.btnSabotageHelp.UseVisualStyleBackColor = true;
             this.btnSabotageHelp.Click += new System.EventHandler(this.btnSabotageHelp_Click);
             // 
+            // cbxNoise
+            // 
+            this.cbxNoise.AutoSize = true;
+            this.cbxNoise.Location = new System.Drawing.Point(12, 96);
+            this.cbxNoise.Name = "cbxNoise";
+            this.cbxNoise.Size = new System.Drawing.Size(116, 21);
+            this.cbxNoise.TabIndex = 20;
+            this.cbxNoise.Text = "Intensyvumas";
+            this.cbxNoise.UseVisualStyleBackColor = true;
+            this.cbxNoise.CheckedChanged += new System.EventHandler(this.cbxNoise_CheckedChanged);
+            // 
+            // lblNoiseIntensityPercent
+            // 
+            this.lblNoiseIntensityPercent.AutoSize = true;
+            this.lblNoiseIntensityPercent.Location = new System.Drawing.Point(235, 100);
+            this.lblNoiseIntensityPercent.Name = "lblNoiseIntensityPercent";
+            this.lblNoiseIntensityPercent.Size = new System.Drawing.Size(22, 17);
+            this.lblNoiseIntensityPercent.TabIndex = 23;
+            this.lblNoiseIntensityPercent.Text = "‰";
+            // 
+            // tbxNoiseIntensity
+            // 
+            this.tbxNoiseIntensity.Location = new System.Drawing.Point(172, 96);
+            this.tbxNoiseIntensity.Name = "tbxNoiseIntensity";
+            this.tbxNoiseIntensity.Size = new System.Drawing.Size(56, 22);
+            this.tbxNoiseIntensity.TabIndex = 22;
+            this.tbxNoiseIntensity.TextChanged += new System.EventHandler(this.tbxNoiseIntensity_TextChanged);
+            // 
             // TestMethodsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 145);
+            this.ClientSize = new System.Drawing.Size(405, 311);
+            this.Controls.Add(this.lblNoiseIntensityPercent);
+            this.Controls.Add(this.tbxNoiseIntensity);
+            this.Controls.Add(this.cbxNoise);
             this.Controls.Add(this.btnSabotageHelp);
             this.Controls.Add(this.lblCornerSidePositionPercentage);
             this.Controls.Add(this.tbxCornerSidePosition);
@@ -302,5 +336,8 @@
         private System.Windows.Forms.TextBox tbxCornerSidePosition;
         private System.Windows.Forms.Label lblCornerSidePositionPercentage;
         private System.Windows.Forms.Button btnSabotageHelp;
+        private System.Windows.Forms.CheckBox cbxNoise;
+        private System.Windows.Forms.Label lblNoiseIntensityPercent;
+        private System.Windows.Forms.TextBox tbxNoiseIntensity;
     }
 }

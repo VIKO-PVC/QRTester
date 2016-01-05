@@ -150,32 +150,47 @@ namespace Service
             return false;
         }
 
-        public static Image GenerateNoise(int percentage, Image image)
+        public static Image GenerateNoise(int permille, Image image)
         {
-            var bitmap = image.Picture;
-            Random r = new Random();
+            var newImage = new Bitmap(image.Picture);
+
+            Random rng = new Random();
             var totalcount = 0;
             var hitCount = 0;
 
-            for (int x = 0; x < bitmap.Width; x++)
+            for (int x = 0; x < newImage.Width; x++)
             {
-                for (int y = 0; y < bitmap.Height; y++)
+                for (int y = 0; y < newImage.Height; y++)
                 {
                     totalcount++;
-                    int num = r.Next(0, 256);
-                    var chance = r.Next(1, 100);
+                    var chance = rng.Next(1, 1000);
+                    var color = rng.Next(0, 2);
+                    if (color == 1)
+                    {
+                        color = 255;
+                    }
+                    else
+                    {
+                        color = 0;
+                    }
 
-                    if (chance <= percentage)
+                    if (chance <= permille)
                     {
                         hitCount++;
-                        ((Bitmap)bitmap).SetPixel(x, y, Color.FromArgb(255, num, num, num));
+                        newImage.SetPixel(x, y, Color.FromArgb(255, color, color, color));
                     }
                 }
             }
 
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                newImage.Save(memoryStream, ImageFormat.Png);
+                newImage = new Bitmap(memoryStream);
+            }
+
             return new Image()
             {
-                Picture = bitmap
+                Picture = newImage
             };
         }
 
@@ -334,8 +349,7 @@ namespace Service
 
             if (operation is RotateOperation)
             {
-                transformedImage = GenerateNoise(1, operation.Image);
-                //transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
+                transformedImage = RotateImage(((RotateOperation)operation).RotateAngle, operation.Image);
             }
             else if (operation is CornerOperation)
             {
@@ -347,6 +361,11 @@ namespace Service
             {
                 var markerOperation = (MarkerOperation)operation;
                 transformedImage = DrawMarkerLine(markerOperation.TopPositionPercent, markerOperation.BottomPositionPercent, Color.Black, operation.Image);
+            }
+            else if (operation is NoiseOperation)
+            {
+                var noiseOperation = (NoiseOperation)operation;
+                transformedImage = GenerateNoise(noiseOperation.Intensity, operation.Image);
             }
 
             return transformedImage;
@@ -398,6 +417,8 @@ namespace Service
                     });
                 }
             }
+
+            //TODO: Add noise operations
         }
 
         public static void LogLastOperation()

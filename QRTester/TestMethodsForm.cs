@@ -61,6 +61,16 @@ namespace QRTester
                 });
             }
 
+            if (cbxNoise.Checked)
+            {
+                operations.Push(new NoiseOperation()
+                {
+                    CheckStatus = checkStatus,
+                    Image = image,
+                    Intensity = Int32.Parse(tbxNoiseIntensity.Text)
+                });
+            }
+
             var operation = operations.Pop();
             var currentOperation = operation;
 
@@ -194,7 +204,25 @@ namespace QRTester
                     cbxCorner.Checked = true;
                 }
             }
+        }
 
+        private void tbxNoiseIntensity_TextChanged(object sender, EventArgs e)
+        {
+            int parsedNumber;
+            if (!String.IsNullOrEmpty(tbxNoiseIntensity.Text) && (!Int32.TryParse(tbxNoiseIntensity.Text, out parsedNumber) || parsedNumber > 1000 || parsedNumber < 0))
+            {
+                tbxNoiseIntensity.Text = tbxNoiseIntensity.Tag.ToString();
+                if (String.IsNullOrEmpty(tbxNoiseIntensity.Text))
+                {
+                    cbxNoise.Checked = false;
+                }
+            }
+            else
+            {
+                tbxNoiseIntensity.Tag = tbxNoiseIntensity.Text;
+                tbxNoiseIntensity.SelectionStart = tbxNoiseIntensity.Text.Length;
+                cbxNoise.Checked = true;
+            }
         }
 
         private void btnSabotageHelp_Click(object sender, EventArgs e)
@@ -227,5 +255,14 @@ namespace QRTester
                 tbxTopCornerPosition.Text = String.IsNullOrEmpty(tbxTopCornerPosition.Text) ? 0.ToString() : tbxTopCornerPosition.Text;
             }
         }
+
+        private void cbxNoise_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxNoise.Checked)
+            {
+                tbxNoiseIntensity.Text = String.IsNullOrEmpty(tbxNoiseIntensity.Text) ? 0.ToString() : tbxNoiseIntensity.Text;
+            }
+        }
+
     }
 }
