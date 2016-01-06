@@ -22,7 +22,7 @@
             SuccessHtmlFragment = "Decode Succeeded</h1>";
             EncodedValueEndHtmlFragment = "</pre>";
             EncodedValueStartHtmlFragment = "<td>Parsed Result</td><td><pre>";
-            MarkerWidth = 15;
+            MarkerWidth = 5;
             TestPacketSettings = new TestPacketSettings()
             {
                 RotationStep = 15,

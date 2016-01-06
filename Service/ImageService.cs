@@ -125,7 +125,6 @@ namespace Service
 
         public static bool IsResponseValid(HttpWebResponse response, out string encodedValue)
         {
-            //TODO: remove
             encodedValue = String.Empty;
 
             if (response == null)
@@ -270,6 +269,8 @@ namespace Service
         public static Image DrawMarkerLine(Point start, Point end, Color markerColor, float markerWidth, Image image)
         {
             var bitmap = image.Picture;
+
+            markerWidth = markerWidth*((float) bitmap.Height/100);
 
             var newImage = new Bitmap(bitmap);
             var graphics = Graphics.FromImage(newImage);

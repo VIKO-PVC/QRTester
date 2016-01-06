@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpForm));
             this.pbxHelpImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxHelpImage)).BeginInit();
             this.SuspendLayout();
@@ -47,8 +48,9 @@
             this.ClientSize = new System.Drawing.Size(282, 253);
             this.Controls.Add(this.pbxHelpImage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HelpForm";
-            this.Text = "HelpForm";
+            this.Text = "Pagalba";
             ((System.ComponentModel.ISupportInitialize)(this.pbxHelpImage)).EndInit();
             this.ResumeLayout(false);
 

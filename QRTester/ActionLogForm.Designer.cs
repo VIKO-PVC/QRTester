@@ -43,7 +43,7 @@
             this.pbcActionLogImage.Location = new System.Drawing.Point(13, 13);
             this.pbcActionLogImage.Name = "pbcActionLogImage";
             this.pbcActionLogImage.Size = new System.Drawing.Size(250, 250);
-            this.pbcActionLogImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbcActionLogImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbcActionLogImage.TabIndex = 0;
             this.pbcActionLogImage.TabStop = false;
             // 
@@ -84,8 +84,10 @@
             this.Controls.Add(this.btnActionLogOk);
             this.Controls.Add(this.lblActionLogMessage);
             this.Controls.Add(this.pbcActionLogImage);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ActionLogForm";
-            this.Text = "ActionLogForm";
+            this.Text = "Veiksmų žurnalas";
             ((System.ComponentModel.ISupportInitialize)(this.pbcActionLogImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
