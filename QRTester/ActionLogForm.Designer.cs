@@ -58,7 +58,7 @@
             // 
             // btnActionLogOk
             // 
-            this.btnActionLogOk.Location = new System.Drawing.Point(854, 237);
+            this.btnActionLogOk.Location = new System.Drawing.Point(976, 240);
             this.btnActionLogOk.Name = "btnActionLogOk";
             this.btnActionLogOk.Size = new System.Drawing.Size(75, 23);
             this.btnActionLogOk.TabIndex = 2;
@@ -79,7 +79,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(941, 272);
+            this.ClientSize = new System.Drawing.Size(1063, 272);
             this.Controls.Add(this.lblDecryptedValue);
             this.Controls.Add(this.btnActionLogOk);
             this.Controls.Add(this.lblActionLogMessage);

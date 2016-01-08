@@ -56,9 +56,9 @@
             // 
             // btnUploadQr
             // 
-            this.btnUploadQr.Location = new System.Drawing.Point(269, 13);
+            this.btnUploadQr.Location = new System.Drawing.Point(269, 9);
             this.btnUploadQr.Name = "btnUploadQr";
-            this.btnUploadQr.Size = new System.Drawing.Size(123, 23);
+            this.btnUploadQr.Size = new System.Drawing.Size(123, 27);
             this.btnUploadQr.TabIndex = 1;
             this.btnUploadQr.Text = "Įkelti...";
             this.btnUploadQr.UseVisualStyleBackColor = true;
@@ -66,9 +66,9 @@
             // 
             // btnSabotage
             // 
-            this.btnSabotage.Location = new System.Drawing.Point(270, 100);
+            this.btnSabotage.Location = new System.Drawing.Point(270, 96);
             this.btnSabotage.Name = "btnSabotage";
-            this.btnSabotage.Size = new System.Drawing.Size(123, 23);
+            this.btnSabotage.Size = new System.Drawing.Size(123, 27);
             this.btnSabotage.TabIndex = 2;
             this.btnSabotage.Text = "Iškraipyti";
             this.btnSabotage.UseVisualStyleBackColor = true;
@@ -77,9 +77,9 @@
             // 
             // btnRunTest
             // 
-            this.btnRunTest.Location = new System.Drawing.Point(270, 71);
+            this.btnRunTest.Location = new System.Drawing.Point(270, 67);
             this.btnRunTest.Name = "btnRunTest";
-            this.btnRunTest.Size = new System.Drawing.Size(123, 23);
+            this.btnRunTest.Size = new System.Drawing.Size(123, 27);
             this.btnRunTest.TabIndex = 4;
             this.btnRunTest.Text = "Testų paketas";
             this.btnRunTest.UseVisualStyleBackColor = true;
@@ -88,9 +88,9 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(270, 274);
+            this.btnExit.Location = new System.Drawing.Point(270, 270);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(123, 23);
+            this.btnExit.Size = new System.Drawing.Size(123, 27);
             this.btnExit.TabIndex = 5;
             this.btnExit.Text = "Išeiti";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -98,9 +98,9 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(268, 216);
+            this.btnSettings.Location = new System.Drawing.Point(268, 212);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(123, 23);
+            this.btnSettings.Size = new System.Drawing.Size(123, 27);
             this.btnSettings.TabIndex = 6;
             this.btnSettings.Text = "Nustatymai";
             this.btnSettings.UseVisualStyleBackColor = true;
@@ -112,9 +112,9 @@
             // 
             // btnRevertSabotage
             // 
-            this.btnRevertSabotage.Location = new System.Drawing.Point(270, 42);
+            this.btnRevertSabotage.Location = new System.Drawing.Point(270, 38);
             this.btnRevertSabotage.Name = "btnRevertSabotage";
-            this.btnRevertSabotage.Size = new System.Drawing.Size(123, 23);
+            this.btnRevertSabotage.Size = new System.Drawing.Size(123, 27);
             this.btnRevertSabotage.TabIndex = 8;
             this.btnRevertSabotage.Text = "Atstatyti";
             this.btnRevertSabotage.UseVisualStyleBackColor = true;
@@ -140,9 +140,9 @@
             // 
             // btnHelp
             // 
-            this.btnHelp.Location = new System.Drawing.Point(270, 245);
+            this.btnHelp.Location = new System.Drawing.Point(270, 241);
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(123, 23);
+            this.btnHelp.Size = new System.Drawing.Size(123, 27);
             this.btnHelp.TabIndex = 11;
             this.btnHelp.Text = "Pagalba";
             this.btnHelp.UseVisualStyleBackColor = true;

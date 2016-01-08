@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,37 @@ namespace Service
             var bitmapFromStream = new Bitmap(fileStream);
             fileStream.Close();
 
+            var imageHeight = ((float)Settings.MaxImageWidth / (float)bitmapFromStream.Width) * bitmapFromStream.Height;
+            var reziseRect = new Rectangle(0, 0, Settings.MaxImageWidth, (int)imageHeight);
+            var resizedImage = new Bitmap(Settings.MaxImageWidth, (int)imageHeight);
+
+            resizedImage.SetResolution(bitmapFromStream.HorizontalResolution, bitmapFromStream.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(resizedImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(bitmapFromStream, reziseRect, 0, 0, bitmapFromStream.Width, bitmapFromStream.Height,
+                        GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                resizedImage.Save(memoryStream, ImageFormat.Png);
+                resizedImage = new Bitmap(memoryStream);
+            }
+
             var image = new Image()
             {
-                Picture = bitmapFromStream
+                Picture = resizedImage
             };
 
             return image;

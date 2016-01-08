@@ -13,6 +13,7 @@
         public Image CurrentImage { get; set; }
         public TestPacketSettings TestPacketSettings { get; set; }
         public bool EnableQrReader { get; set; }
+        public int MaxImageWidth { get; set; }
 
         public Settings()
         {
@@ -23,6 +24,7 @@
             EncodedValueEndHtmlFragment = "</pre>";
             EncodedValueStartHtmlFragment = "<td>Parsed Result</td><td><pre>";
             MarkerWidth = 5;
+            MaxImageWidth = 300;
             TestPacketSettings = new TestPacketSettings()
             {
                 RotationStep = 15,
